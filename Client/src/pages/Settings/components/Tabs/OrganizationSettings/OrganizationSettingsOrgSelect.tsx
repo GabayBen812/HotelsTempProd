@@ -56,6 +56,7 @@ function OrganizationSettingsOrgSelect({
         <DropdownMenuLabel className="text-xs text-muted-foreground">
           {t("organizations")}
         </DropdownMenuLabel>
+        {/* @ts-ignore */}
         {organizations?.map((organizationChild) => (
           <DropdownMenuItem
             key={organizationChild.id}

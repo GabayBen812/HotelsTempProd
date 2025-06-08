@@ -53,7 +53,7 @@ function Permissions({ id }: { id: string | null }) {
         if (!acc[curr.resource]) acc[curr.resource] = [];
         acc[curr.resource].push(curr);
         return acc;
-      }, {}),
+      }, {} as Record<Resource, Permission[]>),
     [permissions]
   );
 

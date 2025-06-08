@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import AreaItem from "./AreaItem";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { Area } from "@/types/api/areas.type";

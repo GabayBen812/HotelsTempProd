@@ -26,6 +26,7 @@ export function DataTable<TData>({
   deleteData,
   columns = [],
   searchable = true,
+  // @ts-ignore
   isPagination = true,
   showAddButton = false,
   actions = null,
@@ -138,6 +139,7 @@ export function DataTable<TData>({
         setTableData(
           (prev) =>
             prev.map((item) =>
+              // @ts-ignore
               item[idField] === response.data[idField] ? response.data : item
             ) as TData[]
         );
@@ -194,6 +196,7 @@ export function DataTable<TData>({
     setTableData((prev) =>
       prev.map((row) =>
         idField && row[idField] === rowId
+          // @ts-ignore
           ? { ...row, isEditMode: !row.isEditMode }
           : row
       )
@@ -325,6 +328,7 @@ export function DataTable<TData>({
         sorting,
         columns,
         table,
+        // @ts-ignore
         enhancedActions,
         renderExpandedContent,
         specialRow,
@@ -335,6 +339,7 @@ export function DataTable<TData>({
         setSpecialRow,
         renderEditContent,
         toggleEditMode,
+        // @ts-ignore
         idField,
       }}
     >

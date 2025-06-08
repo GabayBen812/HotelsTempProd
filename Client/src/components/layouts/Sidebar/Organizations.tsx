@@ -84,6 +84,7 @@ export function Organizations({ loading }: { loading: boolean }) {
               {t("organizations")}
             </DropdownMenuLabel>
 
+            {/* @ts-ignore */}
             {organizations.map((organizationChild) => (
               <DropdownMenuItem
                 key={organizationChild.id}

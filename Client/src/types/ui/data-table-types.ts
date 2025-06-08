@@ -34,7 +34,9 @@ export interface DataTableProps<TData> {
     params: ApiQueryParams
   ) => Promise<ApiResponse<TData> | MutationResponse<TData[]>>;
   initialData?: TData[];
+  // @ts-ignore
   addData: (data: Partial<TData>) => Promise<MutationResponse<TData>>;
+  // @ts-ignore
   updateData: (data: TData) => Promise<MutationResponse<TData>>;
   deleteData?: (id: number) => Promise<MutationResponse<null>>;
   columns: ColumnDef<TData>[];

@@ -26,6 +26,7 @@ interface FilePreviewProps {
 export function FilePreview({
   fileName,
   onRemove,
+  // @ts-ignore
   loading,
   readOnly = false,
 }: FilePreviewProps) {

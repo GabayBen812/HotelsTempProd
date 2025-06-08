@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, Save, Plus, Filter } from "lucide-react";
+import { Download, Save, Filter } from "lucide-react";
 
 interface ReportField {
   id: string;
@@ -16,17 +16,17 @@ interface ReportField {
   options?: { label: string; value: string }[];
 }
 
-interface CustomReport {
-  id: string;
-  name: string;
-  description: string;
-  fields: ReportField[];
-  filters: any;
-  dateRange: {
-    start: Date | undefined;
-    end: Date | undefined;
-  };
-}
+// interface CustomReport {
+//   id: string;
+//   name: string;
+//   description: string;
+//   fields: ReportField[];
+//   filters: any;
+//   dateRange: {
+//     start: Date | undefined;
+//     end: Date | undefined;
+//   };
+// }
 
 export default function CustomReportBuilder() {
   const { t, i18n } = useTranslation();

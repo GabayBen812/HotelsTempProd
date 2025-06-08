@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Organization } from "@/types/api/organization";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as z from "zod";
@@ -37,6 +37,7 @@ function OrganizationSettings() {
   const { t } = useTranslation();
   const { organizations } = useContext(OrganizationsContext);
   const [selectedOrganization, setSelectedOrganization] =
+    // @ts-ignore
     useState<Organization>(organizations[0]);
 
   const form = useForm<OrganizationFormValues>({

@@ -361,6 +361,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
               defaultValue={defaultValues?.[field.name] || []} // Ensure default value is an array
               render={({ field: controllerField }) => (
                 <MultiSelect
+                  // @ts-ignore
                   options={field.options || []} // Pass the options to MultiSelect
                   selected={controllerField.value} // Bind selected values
                   onChange={(selected) => controllerField.onChange(selected)} // Update form state

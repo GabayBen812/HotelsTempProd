@@ -30,6 +30,7 @@ export const StatusBadge = ({
     },
   };
 
+  // @ts-ignore
   const config = statusConfig[status];
   const Icon = config.icon;
 

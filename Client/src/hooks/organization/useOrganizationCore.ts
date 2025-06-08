@@ -12,7 +12,7 @@ import {
   createNewOrganization,
   updateOrganization,
 } from "@/api/organizations/index";
-import { applyOrganizationTheme } from "@/utils/hooks/UseOrganizationutils";
+import { applyOrganizationTheme } from "@/utils/hooks/UseOrganizationUtils";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 

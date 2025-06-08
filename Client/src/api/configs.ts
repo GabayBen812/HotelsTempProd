@@ -1,6 +1,6 @@
 import { MutationResponse } from "@/types/api/auth";
 import { ApiQueryParams } from "@/types/ui/data-table-types";
-import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationutils";
+import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationUtils";
 import axios from "axios";
 
 /**

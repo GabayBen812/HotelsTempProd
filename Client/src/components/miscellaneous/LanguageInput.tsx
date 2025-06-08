@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import LanguagePicker from "../LanguagePicker";
 import { MinusCircleIcon } from "lucide-react";
 
-interface Language {
-  code: string;
-  name: string;
-  flag?: React.ReactNode;
-}
+// interface Language {
+//   code: string;
+//   name: string;
+//   flag?: React.ReactNode;
+// }
 
 interface LanguageInputProps {
   label: string;

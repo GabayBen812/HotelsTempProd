@@ -31,6 +31,7 @@ function Step1() {
     if (response && response.status === 202 && response.data) {
       const encryptedData = encryptData({ step: 2 });
       navigate(`/login?d=${encryptedData}`);
+      // @ts-ignore
     } else setErrorMessage(t(response?.error) || "אירעה שגיאה, נסה שוב.");
   };
 

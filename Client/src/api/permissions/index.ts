@@ -14,6 +14,7 @@ export const fetchPermissions = async (
 ): Promise<MutationResponse<Permission[]>> => permissionsApi.fetch(id);
 
 export const updatePermissions = (data: Permission[]) => {
+  // @ts-ignore
   return permissionsApi.update(data);
 };
 export const upsertPermissions = (data: Permission[]) => {

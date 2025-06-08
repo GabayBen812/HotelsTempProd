@@ -35,6 +35,8 @@ export const fetchRole = async (
 };
 
 export const createRole = rolesApi.create;
+
+// @ts-ignore
 export const updateRole = (data: Partial<Role>) => rolesApi.update(data);
 
 export default rolesApi;

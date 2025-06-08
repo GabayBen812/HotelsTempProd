@@ -1,7 +1,7 @@
 import { createApiService } from "@/api/utils/apiFactory";
 import { MutationResponse } from "@/types/api/auth";
 import { Organization } from "@/types/api/organization";
-import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationutils";
+import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationUtils";
 
 // Define the full API service
 const organizationsApi = createApiService<Organization>("/organizations", {

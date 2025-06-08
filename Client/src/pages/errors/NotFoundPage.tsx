@@ -3,6 +3,7 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AuroraBackground } from "@/components/backgrounds/AroraBackground";
+import { Button } from "@/components/ui/button";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function NotFoundPage() {
             404
           </p>
           <span className="text-2xl font-normal">{t("page_not_found")}</span>
+          <Button onClick={() => navigate("/home")}>{t("back_to_home")}</Button>
         </div>
       </section>
     </AuroraBackground>

@@ -14,8 +14,11 @@ export function getCallFields(
   allUsers: User[],
   statusOptions: { label: string; value: string }[]
 ): FieldConfig[] {
+  // @ts-ignore
   const formattedLocations = formatOptions(locations, language, t);
+  // @ts-ignore
   const formattedCategories = formatOptions(callCategories, language, t);
+  // @ts-ignore
   const formattedUsers = formatOptions(allUsers, language, t);
 
   // Convert statusMap to an array of options

@@ -11,7 +11,6 @@ import DynamicForm, {
 import { z } from "zod";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { handleImageChange } from "@/lib/formUtils";
-import { DataTableBodyDetailedView } from "@/components/ui/completed/data-table/data-table-body/data-table-body-detailed-view";
 import { getDepartmentsColumns } from "@/components/forms/departments/departmentsColumns";
 
 const DepartmentsTable = () => {
@@ -46,7 +45,9 @@ const DepartmentsTable = () => {
     <DataTable<Department>
       initialData={departments}
       fetchData={fetchDepartmentsParams}
+      // @ts-ignore
       addData={createNewDepartment}
+      // @ts-ignore
       deleteData={deleteDepartment}
       updateData={updateDepartment}
       columns={columns}

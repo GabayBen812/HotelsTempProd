@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Grid, TableProperties } from "lucide-react";
 
-interface Props {}
 
 function DepartmentFormDisplayTypes() {
   return (

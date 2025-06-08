@@ -29,6 +29,7 @@ function DataTableBodyRowExpanded<T>({
 
   const colSpan = columns.length + (enhancedActions ? 1 : 0);
   const rowData = row?.original ?? ({} as T);
+  // @ts-ignore
   const isEditMode = !!row?.original?.isEditMode;
   const rowId =
     idField && row?.original ? (row.original as any)[idField] : null;

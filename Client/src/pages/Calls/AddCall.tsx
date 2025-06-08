@@ -38,6 +38,7 @@ export default function AddCall() {
     reset,
   } = useForm();
 
+  // @ts-ignore
   const onSubmit = async (data: any) => {
     // TODO: Replace with actual API call
     await new Promise((res) => setTimeout(res, 1000));

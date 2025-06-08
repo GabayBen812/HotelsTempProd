@@ -1,10 +1,8 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Brush } from "lucide-react";
 
 import { Area } from "@/types/api/areas.type";
 import i18n from "@/i18n";
 import { t } from "i18next";
-import LanguageInput from "@/components/miscellaneous/LanguageInput";
 interface AreaItemProps {
   area: Area;
   editMode: boolean;

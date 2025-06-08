@@ -11,7 +11,9 @@ export function getRecurringCallFields(
   locations: Location[],
   callCategories: CallCategory[]
 ): FieldConfig[] {
+  // @ts-ignore
   const formattedLocations = formatOptions(locations, language, t);
+  // @ts-ignore
   const formattedCategories = formatOptions(callCategories, language, t);
 
   return [

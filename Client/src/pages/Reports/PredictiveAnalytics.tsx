@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createApiService } from "@/api/utils/apiFactory";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,

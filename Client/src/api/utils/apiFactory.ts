@@ -2,7 +2,7 @@ import { MutationResponse } from "@/types/api/auth";
 import { ApiQueryParams, ApiResponse } from "@/types/ui/data-table-types";
 import { buildQueryParams, handleApiError } from "../configs";
 import apiClient from "../apiClient";
-import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationutils";
+import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationUtils";
 
 type CustomRoute =
   | ((...args: any[]) => string)

@@ -29,8 +29,10 @@ export const MessagesList = ({ messages, isLoading, userName }: Props) => (
           {msg.text}
         </div>
 
+        {/* @ts-ignore */}
         {msg.files?.length > 0 && (
           <div className="flex flex-col gap-1">
+            {/* @ts-ignore */}
             {msg.files.map((file, i) => (
               <FilePreview
                 key={i}

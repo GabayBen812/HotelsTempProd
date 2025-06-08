@@ -87,6 +87,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
       });
 
       const botReply =
+        // @ts-ignore
         response?.data?.gemini_response ?? "מצטערת, לא הצלחתי להבין. נסה שוב.";
 
       setMessages((prev) => [

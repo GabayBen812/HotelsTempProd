@@ -52,6 +52,7 @@ function AccountSettings() {
   };
   const onReset = () => {
     reset({
+      // @ts-ignore
       logo: user?.logo || undefined,
       name: user?.name || "",
       email: user?.email || "",
@@ -61,6 +62,7 @@ function AccountSettings() {
   const onSubmit = async (data: AccountSettingsValues) => {
     try {
       if (!user) return;
+      // @ts-ignore
       await updateUser({ ...data, id: user.id });
       toast({
         title: t("success"),

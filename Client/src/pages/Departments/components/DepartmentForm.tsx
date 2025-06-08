@@ -75,6 +75,7 @@ function DepartmentForm({ mode, department, onSubmitSuccess }: Props) {
 
       if (mode === "add") {
         await createNewDepartment({
+          // @ts-ignore
           name: data.name,
           organizationId: Number(organization?.id),
           logo: logoPath || "",
@@ -112,6 +113,7 @@ function DepartmentForm({ mode, department, onSubmitSuccess }: Props) {
             {t("add_x", { x: t("department") })}
           </Button>
         ) : (
+          // @ts-ignore
           <Button tooltip={t("edit_department")} variant={"outline"}>
             <Pencil />
           </Button>

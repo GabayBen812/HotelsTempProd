@@ -62,6 +62,7 @@ export default function RecurringCallTable() {
             defaultValues={rowData}
             onSubmit={(data: z.infer<typeof recurringCallFormSchema>) => {
               const department = callCategories.find(
+                // @ts-ignore
                 (category) => category.id === data.callCategoryId
               )?.departmentId;
               const payload = {

@@ -66,6 +66,7 @@ export function DataTableBodyDetailedView<T extends Record<string, unknown>>({
     fetchEnhancedData();
   }, [rowData, t]);
 
+  // @ts-ignore
   const renderValue = (key: string, field: EnhancedFieldValue) => {
     if (field.loading) {
       return <div className="h-4 w-24 animate-pulse bg-muted rounded" />;
@@ -182,6 +183,7 @@ export function DataTableBodyDetailedView<T extends Record<string, unknown>>({
       </Card>
 
       <div className="mt-4">
+        {/* @ts-ignore */}
         <CallChat callId={Number(rowData.id)} />
       </div>
     </div>

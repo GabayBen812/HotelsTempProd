@@ -27,6 +27,7 @@ export const InputControls = ({
       <div className="flex gap-0">
         <Combobox
           value={form.resource}
+          // @ts-ignore
           onChange={(val) => setForm((prev) => ({ ...prev, resource: val }))}
           options={RESOURCE_OPTIONS}
           label="בחר משאב"

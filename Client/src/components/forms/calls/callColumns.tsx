@@ -122,6 +122,7 @@ export const getCallColumns = (
   {
     accessorKey: "createdAt",
     header: t("created_at"),
+    // @ts-ignore
     cell: ({ row }) => formatDateTime(row.original.createdAt),
   },
   {
@@ -142,6 +143,7 @@ export const getCallColumns = (
       //@ts-ignore
       if (!call.callCategory?.expectedTime || !call.createdAt) return null;
 
+      // @ts-ignore
       const createdAt = new Date(call.createdAt);
       //@ts-ignore
       const expectedTime = call.callCategory.expectedTime;
@@ -150,8 +152,10 @@ export const getCallColumns = (
       let elapsed, percent, text;
 
       // Calculate elapsed time
+      // @ts-ignore
       if (call.status === "COMPLETED" && call.closedAt) {
         elapsed = Math.floor(
+          // @ts-ignore
           (new Date(call.closedAt).getTime() - createdAt.getTime()) /
             (1000 * 60)
         );

@@ -17,3 +17,10 @@ export type LoginResponse = {
   user: User;
   organization: Organization;
 };
+
+export type MailCheck = {
+  id: string;
+  email: string;
+  organizationId: string;
+  organization: Organization;
+};

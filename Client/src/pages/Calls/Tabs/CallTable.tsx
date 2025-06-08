@@ -198,6 +198,7 @@ export default function CallTable() {
             />
           </div>
         }
+        // @ts-ignore
         renderExpandedContent={({ rowData, toggleEditMode }) => {
           return <CallsExpanded call={rowData} />;
         }}

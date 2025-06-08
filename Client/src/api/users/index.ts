@@ -3,7 +3,7 @@ import { createApiService } from "../utils/apiFactory";
 import { MutationResponse } from "@/types/api/auth";
 import apiClient from "../apiClient";
 import { User } from "@/types/api/user";
-import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationutils";
+import { getSelectedOrganization } from "@/utils/hooks/UseOrganizationUtils";
 const usersApi = createApiService<User>("/users", {
   includeOrgId: true,
   customRoutes: {

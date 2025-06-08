@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -7,18 +7,17 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "../ui/breadcrumb";
-import { useContext } from "react";
 
 interface BreadcrumbProps {
   rootLabel?: string; // Optional custom label for the root breadcrumb
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbProps> = ({
-  rootLabel = "Home",
+  // rootLabel = "Home",
 }) => {
-  const location = useLocation();
+  // const location = useLocation();
   // Split the pathname into segments
-  const pathnames = location.pathname.split("/").filter((x) => x);
+  // const pathnames = location.pathname.split("/").filter((x) => x);
 
   return (
     <Breadcrumb>

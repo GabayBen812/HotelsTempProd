@@ -27,18 +27,15 @@ export type CallStatus =
 export interface Call {
   id: string;
   description: string;
-  status: string;
-  assignedToId?: string;
   callCategoryId: number;
   locationId: number;
   departmentId: number;
   createdById: number;
   createdBy: User;
-  assignedToId: number;
+  assignedToId?: number | string;
   assignedTo: User | null;
   closedById: number | null;
-  status: CallStatus;
-  callCategoryId: number;
+  status: CallStatus | string;
   Department: Department;
   callCategory: CallCategory;
   location: Location;

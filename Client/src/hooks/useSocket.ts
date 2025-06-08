@@ -2,7 +2,6 @@ import { useEffect, useRef, useCallback, useContext } from "react";
 import { io, Socket } from "socket.io-client";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { useAuth } from "./useAuth";
-
 interface UseSocketReturn {
   joinCallRoom: (callId: number) => void;
   leaveCallRoom: (callId: number) => void;
@@ -69,10 +68,7 @@ export const useSocket = (): UseSocketReturn => {
   };
 };
 
-import { useEffect, useRef, useCallback, useContext } from "react";
-import { io, Socket } from "socket.io-client";
-import { OrganizationsContext } from "@/contexts/OrganizationsContext";
-import { useAuth } from "./useAuth";
+
 
 type EventCallback = (...args: any[]) => void;
 
