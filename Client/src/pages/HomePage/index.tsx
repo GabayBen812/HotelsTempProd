@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Hotel } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import StatsSection from "./components/StatsSection";
 import FeaturePillars from "./components/FeatureSection";
 import AICapabilities from "./components/AICapabilities";
@@ -9,6 +10,8 @@ import HeroSection from "./components/HeroSection";
 import LanguagePicker from "@/components/LanguagePicker";
 
 export default function Homepage() {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <motion.div
@@ -27,7 +30,10 @@ export default function Homepage() {
               <span className="text-xl font-bold">מלונות</span>
             </div>
             <div className="flex justify-start gap-2">
-              <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 py-5 px-7">
+              <Button 
+                onClick={() => navigate('/login')}
+                className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 py-5 px-7"
+              >
                 התחברות
               </Button>
               <LanguagePicker />
