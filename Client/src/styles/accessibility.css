@@ -1,0 +1,93 @@
+/* High Contrast Mode Styles */
+.high-contrast {
+  /* Text and background colors */
+  --high-contrast-text: #ffffff;
+  --high-contrast-bg: #000000;
+  --high-contrast-link: #ffff00;
+  --high-contrast-border: #ffffff;
+}
+
+.high-contrast body {
+  background-color: var(--high-contrast-bg) !important;
+  color: var(--high-contrast-text) !important;
+}
+
+.high-contrast a {
+  color: var(--high-contrast-link) !important;
+}
+
+.high-contrast button,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  background-color: var(--high-contrast-bg) !important;
+  color: var(--high-contrast-text) !important;
+  border: 2px solid var(--high-contrast-border) !important;
+}
+
+.high-contrast img {
+  filter: grayscale(100%) contrast(150%) !important;
+}
+
+.high-contrast * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Cursor Size Adjustments */
+.cursor-large * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="black" stroke="white" stroke-width="1"/></svg>')
+      16 16,
+    auto !important;
+}
+
+/* Link Highlighting */
+.highlight-links a {
+  text-decoration: underline !important;
+  outline: 2px solid #0066cc !important;
+  outline-offset: 2px !important;
+}
+
+/* Readable Design */
+.readable-design {
+  --readable-bg: #f8f9fa;
+  --readable-text: #333333;
+  --readable-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.readable-design body {
+  background-color: var(--readable-bg) !important;
+  color: var(--readable-text) !important;
+  font-family: var(--readable-font) !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.readable-design p,
+.readable-design h1,
+.readable-design h2,
+.readable-design h3,
+.readable-design h4,
+.readable-design h5,
+.readable-design h6 {
+  font-family: var(--readable-font) !important;
+  margin-bottom: 1.2em !important;
+}
+
+/* Stop Animations */
+.stop-animations * {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Keyboard Navigation */
+.keyboard-navigation-only *:focus {
+  outline: 3px solid #0066cc !important;
+  outline-offset: 2px !important;
+}
+
+.keyboard-navigation-only *:not(:focus-visible) {
+  outline: none !important;
+}
