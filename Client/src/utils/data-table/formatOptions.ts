@@ -7,6 +7,8 @@ export const formatOptions = (
 ) => {
   return items.map((item) => ({
     value: item.id,
-    label: item.name[language] || item.name.en || item.name,
+    label: typeof item.name === 'string' 
+      ? item.name 
+      : (item.name as Name)[language] || (item.name as Name).en,
   }));
 };

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Brush, Plus, X, Trash2 } from "lucide-react";
+import { Plus, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import LanguageInput from "@/components/miscellaneous/LanguageInput";
-import { Area } from "@/types/api/areas.type";
+
 import AreYouSureDialog from "@/components/ui/completed/dialogs/AreYouSureDialog";
 
 interface AddAreaProps {

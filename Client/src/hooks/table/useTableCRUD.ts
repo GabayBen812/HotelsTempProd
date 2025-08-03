@@ -74,7 +74,7 @@ export function useTableCRUD<TData>({
 
       setTableData((prev) =>
         prev.map((item) =>
-          (item as any)[idField] === id ? response.data : item
+          (item as any)[idField] === id ? (response.data || item) : item
         )
       );
       toast.success(t("tost_alerts.update"));

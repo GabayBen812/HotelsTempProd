@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,15 +12,12 @@ import {
   Settings,
   Brain,
   Download,
-  TrendingUp,
   Users,
   Clock,
   Target,
   Eye,
-  AlertTriangle,
   CheckCircle,
   Zap,
-  Star,
   RefreshCw,
 } from "lucide-react";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
@@ -44,7 +41,6 @@ export default function Reports() {
     dashboardStats,
     urgentIssues,
     departmentPerformance,
-    peakHours,
     loading,
     refetch,
   } = useReportsData(organization?.id);
@@ -59,8 +55,7 @@ export default function Reports() {
       return;
     }
 
-    const currentDate = new Date().toLocaleDateString();
-    const organizationName = organization?.name || "Organization";
+
 
     try {
       if (format === "csv") {

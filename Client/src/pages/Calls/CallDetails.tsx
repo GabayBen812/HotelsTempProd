@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import i18n from "@/i18n";
 import { CallChat } from "@/components/calls-table/CallChat/CallChat";
-import CallProgress from "./CallProgress";
+
 
 const callsApi = createApiService<Call>("/calls", { includeOrgId: true });
 

@@ -43,8 +43,9 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
     { type: "edit", label: t("edit") },
     { type: "delete", label: t("delete") },
     {
+      label: "Chat Bot",
       placement: "external",
-      component: (row) => <ChatBotLinkButtons location={row.original} />,
+      component: (row: any) => <ChatBotLinkButtons location={row.original} />,
     },
   ];
 
@@ -116,11 +117,27 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
             validationSchema={locationSchema}
             defaultValues={rowData}
             onSubmit={async (data: z.infer<typeof locationSchema>) => {
-              if (handleSave && mode === "create")
-                //@ts-ignore
-                await handleSave({ ...data, areaId });
-              else if (handleEdit && mode === "edit")
-                await handleEdit({ id: rowData?.id, ...data });
+              if (handleSave && mode === "create") {
+                const saveData = {
+                  ...data,
+                  areaId,
+                  name: {
+                    ...data.name,
+                    ar: data.name.ar || '',
+                  },
+                };
+                await handleSave(saveData);
+              } else if (handleEdit && mode === "edit") {
+                const editData = {
+                  id: rowData?.id,
+                  ...data,
+                  name: {
+                    ...data.name,
+                    ar: data.name.ar || '',
+                  },
+                };
+                await handleEdit(editData);
+              }
             }}
           />
         );

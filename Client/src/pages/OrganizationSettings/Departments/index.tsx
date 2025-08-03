@@ -103,6 +103,10 @@ const DepartmentsTable = () => {
               const departmentData: Partial<Department> = {
                 ...data,
                 logo: logoPath,
+                name: {
+                  ...data.name,
+                  ar: data.name.ar || '',
+                },
               };
 
               if (!isCreateMode) departmentData.id = rowData?.id;

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Hotel } from "lucide-react";
 import { motion } from "framer-motion";
 import StatsSection from "./components/StatsSection";
 import FeaturePillars from "./components/FeatureSection";

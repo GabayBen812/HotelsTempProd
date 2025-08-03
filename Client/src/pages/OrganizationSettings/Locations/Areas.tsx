@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Backdrop from "@/components/ui/completed/dialogs/Backdrop";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/Input";
-import { OrganizationsContext } from "@/contexts/OrganizationsContext";
+
 import { Area } from "@/types/api/areas.type";
 import { useSearchParams } from "react-router-dom";
 import AreasList from "./Areas/AreasList";
@@ -13,9 +13,8 @@ import { useAreas } from "@/hooks/organization/useAreas";
 import { useOrganization } from "@/hooks/organization/useOrganization";
 import i18n from "@/i18n";
 import { toast } from "@/hooks/use-toast";
-import { updateAreas } from "@/api/areas";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteAreas } from "@/api/areas";
+import { updateAreas, deleteAreas } from "@/api/areas";
 
 interface AreasProps {
   selectedArea: Area | null;
@@ -25,7 +24,7 @@ interface AreasProps {
 function Areas({ selectedArea, setSelectedArea }: AreasProps) {
   const { t } = useTranslation();
   const { organization } = useOrganization();
-  const { areas, createNewArea, createNewAreaStatus, createNewAreaError, upsertArea } = useAreas();
+  const { areas, createNewArea } = useAreas();
   const [editMode, setEditMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddingNew, setIsAddingNew] = useState(false);
