@@ -19,6 +19,8 @@ export function useAuth() {
     mutationFn: login,
 
     onSuccess: () => {
+      console.log("Login successful");
+
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.invalidateQueries({ queryKey: ["organizations"] });
     },

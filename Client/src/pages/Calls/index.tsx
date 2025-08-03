@@ -9,10 +9,8 @@ export default function CallsPage() {
   const direction = GetDirection();
 
   return (
-    <div className="mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-primary mb-8 rtl:text-right ltr:text-left">
-        {t("calls")}
-      </h1>
+    <div className="space-y-6">
+      <h1 className="heading">{t("calls")}</h1>
 
       <Tabs
         defaultValue="active"

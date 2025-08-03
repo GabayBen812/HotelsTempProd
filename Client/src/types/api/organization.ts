@@ -3,7 +3,7 @@ export interface Organization {
   name: string;
   logo: string;
   OrganizationRole: OrganizationRole;
-  customStyles?: CustomStyles
+  customStyles?: CustomStyles;
 }
 
 export interface OrganizationRole {
@@ -15,7 +15,13 @@ export interface Role {
 }
 
 export interface CustomStyles {
-  accentColor?: "blue" | "dark" | "light" | "green" | "red" | "gray";
+  foreground?: string;
+  primary?: string;
+  "muted-foreground"?: string;
+  accent?: string;
+  border?: string;
+  surface?: string;
+  background?: string;
 }
 export interface NewOrganizationPayload {
   name: string;

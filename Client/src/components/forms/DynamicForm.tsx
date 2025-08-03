@@ -67,20 +67,13 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
     watch,
     control,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm({
     resolver: zodResolver(validationSchema),
     defaultValues,
     mode: "onChange",
     shouldUnregister: false,
   });
-
-  useEffect(() => {
-    if (defaultValues) {
-      reset(defaultValues, { keepDefaultValues: true });
-    }
-  }, [defaultValues, reset]);
-
   const imageField = fields.find((f) => f.type === "image");
   const imageFieldName = imageField?.name;
   const watchedImageFile = watch(imageFieldName || "");
@@ -109,7 +102,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
       case "text":
       case "email":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -129,7 +122,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "checkbox":
         return (
-          <div key={field.name} className="flex items-center gap-2 w-40">
+          <div key={field.name} className="flex items-center gap-2 w-56">
             <input
               type="checkbox"
               {...register(field.name)}
@@ -154,12 +147,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "language":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <LanguageInput
               label={field.label}
               defaultValue={defaultValues?.[field.name]}
               onLanguageValuesChange={(val: LanguageValue) => {
-                setValue(field.name, val);
+                setValue(field.name, val, { shouldDirty: true });
               }}
             />
             {error && (
@@ -179,7 +172,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
             <label>{t(field.label)}</label>
             <label
               htmlFor="picture-upload"
-              className="w-32 h-32 flex items-center justify-center border-2 border-dashed rounded-lg cursor-pointer relative overflow-hidden bg-white"
+              className="w-32 h-32 flex items-center justify-center border-2 border-dashed rounded-lg cursor-pointer relative overflow-hidden bg-surface"
             >
               {preview ? (
                 <img
@@ -211,7 +204,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "autocomplete":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -244,7 +237,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "date":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -279,7 +272,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         );
       case "multi-time":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -346,7 +339,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "multi-checkbox":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -386,7 +379,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
       case "number":
         return (
-          <div key={field.name} className="flex flex-col gap-1 w-40">
+          <div key={field.name} className="flex flex-col gap-1 w-56">
             <label>
               {t(field.label)}
               {requiredFields.includes(field.name) && (
@@ -414,10 +407,21 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
     }
   };
 
+  const handleDynamicSubmit = (
+    callback: (data: any) => void | Promise<void>
+  ) => {
+    return async (data: any) => {
+      const result = callback(data);
+      if (result instanceof Promise) {
+        await result;
+        reset(data);
+      }
+    };
+  };
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4 bg-white px-8 py-6 rounded-lg"
+      onSubmit={handleSubmit(handleDynamicSubmit(onSubmit))}
+      className="flex flex-col gap-4 bg-surface px-8 py-6 rounded-lg"
     >
       <h2 className="text-base font-semibold text-accent rtl:text-right ltr:text-left">
         {mode === "edit"
@@ -451,8 +455,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         <Button
           variant={"default"}
           type="submit"
-          disabled={isSubmitting}
-          className="w-fit px-8 text-white hover:text-white"
+          loading={isSubmitting}
+          disabled={isSubmitting || !isDirty}
+          className="w-fit px-8 text-surface hover:text-surface"
         >
           {t(mode === "create" ? "create" : "save")}
         </Button>

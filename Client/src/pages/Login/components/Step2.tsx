@@ -1,10 +1,12 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ChevronLeft, Hotel, Loader2 } from "lucide-react";
+import { Hotel, Loader2, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Organization } from "@/types/api/organization";
 import { useContext, useEffect } from "react";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { useTranslation } from "react-i18next";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import logo from "@/assets/logo.svg";
 
 function Step2() {
   const { t } = useTranslation();
@@ -41,43 +43,41 @@ function Step2() {
   }
 
   return (
-    <form className="flex flex-col items-center gap-3 w-full text-right">
-      {organizations.data.length === 0 && <NoOrganizations />}
-      {organizations.data.length > 0 && (
-        <Organizations
-          organizations={organizations.data}
-          handleOrganizationClick={handleOrganizationClick}
+    <Card className="w-full h-full border-0 shadow-none">
+      <CardHeader className="text-center pb-2 justify-center items-center">
+        <img
+          src={logo}
+          alt="Logo"
+          className="mx-auto mb-4 w-16 h-16 shadow-md shadow-primary/10 rounded-2xl border border-border/20"
         />
-      )}
-      <button
-        className="flex items-end justify-end space-x-4 rounded-md border p-4 w-full group hover:bg-muted cursor-pointer duration-200 ease-out relative text-right"
-        type="button"
-        onClick={() => handleOrganizationClick("new")}
-      >
-        <div className="flex gap-2 flex-grow">
-          <Avatar className="rounded-md">
-            <AvatarFallback className="rounded-md bg-black text-white">
-              <Hotel />
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 space-y-1 ltr:text-left">
-            <p className="text-sm font-medium leading-none">
-              {t("create_organization")}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {t("create_new_organization")}
-            </p>
-          </div>
-        </div>
+        <CardTitle className="text-2xl font-bold text-primary">
+          {t("select_organization")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6 pt-6">
+        <form className="grid grid-cols-3 items-center gap-3 w-full text-right">
+          {organizations.data.length === 0 && <NoOrganizations />}
+          {organizations.data.length > 0 && (
+            <Organizations
+              organizations={organizations.data}
+              handleOrganizationClick={handleOrganizationClick}
+            />
+          )}
 
-        <div className="absolute rtl:left-4 ltr:rotate-180 ltr:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <ChevronLeft
-            className="text-muted-foreground group-hover:text-foreground"
-            size={20}
-          />
-        </div>
-      </button>
-    </form>
+          <button
+            className="flex flex-col items-center justify-center rounded-xl border border-border/40 shadow-sm p-6 aspect-square h-40 group hover:bg-background cursor-pointer duration-200 ease-out relative"
+            type="button"
+            onClick={() => handleOrganizationClick("new")}
+          >
+            <Avatar className="rounded-md w-14 h-14">
+              <AvatarFallback className="rounded-full bg-border/30 group-hover:bg-surface duration-150">
+                <Plus className="text-accent" />
+              </AvatarFallback>
+            </Avatar>
+          </button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -88,46 +88,29 @@ function Organizations({
   organizations: Organization[];
   handleOrganizationClick: (organizationId: string) => void;
 }) {
-  const { t } = useTranslation();
   return (
-    <div className="w-full flex flex-col gap-6">
-      <h1 className="font-medium text-2xl text-center">
-        {t("user_organizations")}
-      </h1>
-      <div className="flex flex-col gap-3">
-        {organizations.map((organization: Organization) => (
-          <button
-            className="flex items-end justify-end space-x-4 rounded-md border p-4 w-full group hover:bg-muted cursor-pointer duration-200 ease-out relative text-right"
-            type="button"
-            key={organization.id}
-            onClick={() => handleOrganizationClick(String(organization.id))}
-          >
-            <div className="flex gap-2 flex-grow rtl:flex-row">
-              <Avatar className="rounded-md">
-                <AvatarFallback className="rounded-md bg-accent text-white">
-                  <Hotel />
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 space-y-1 ltr:text-left">
-                <p className="text-sm font-medium leading-none">
-                  {organization.name}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {t("organization_associated_with_account")}
-                </p>
-              </div>
-            </div>
+    <>
+      {organizations.map((organization: Organization) => (
+        <button
+          className="flex flex-col items-center justify-center rounded-xl border border-border/40 shadow-sm 
+                   p-6 aspect-square w-40 group cursor-pointer relative 
+                   transition-all duration-200 ease-out
+                   hover:scale-105 hover:shadow-md hover:bg-background/70"
+          type="button"
+          onClick={() => handleOrganizationClick(String(organization.id))}
+        >
+          <Avatar className="rounded-md mb-5 w-14 h-14">
+            <AvatarFallback className="rounded-full bg-accent text-surface">
+              <Hotel />
+            </AvatarFallback>
+          </Avatar>
 
-            <div className="absolute rtl:left-4 ltr:rotate-180 ltr:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <ChevronLeft
-                className="text-muted-foreground group-hover:text-foreground"
-                size={20}
-              />
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
+          <div className="flex-1 space-y-1 text-center">
+            <p className="font-medium">{organization.name}</p>
+          </div>
+        </button>
+      ))}
+    </>
   );
 }
 

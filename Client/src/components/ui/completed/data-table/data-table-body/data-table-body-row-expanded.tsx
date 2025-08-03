@@ -19,7 +19,7 @@ function DataTableBodyRowExpanded<T>({
     enhancedActions,
     columns,
     handleAdd,
-    handleUpdateData,
+    handleUpdate,
     renderExpandedContent,
     renderEditContent,
     toggleEditMode,
@@ -49,7 +49,7 @@ function DataTableBodyRowExpanded<T>({
     const sharedProps = {
       rowData,
       handleSave,
-      handleEdit: handleUpdateData,
+      handleEdit: handleUpdate,
     };
 
     if (specialRow) {
@@ -85,7 +85,7 @@ function DataTableBodyRowExpanded<T>({
             <td colSpan={colSpan}>
               <motion.div
                 key={`expanded-${row?.id ?? "custom"}`}
-                className="absolute z-40 w-full bg-white rounded-lg shadow-lg overflow-hidden"
+                className="absolute z-40 w-full bg-surface rounded-lg shadow-lg overflow-hidden"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}

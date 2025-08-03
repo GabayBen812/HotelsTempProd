@@ -1,9 +1,10 @@
-import { Clock, MapPin, Circle, User, Clipboard, Users } from "lucide-react";
-import { CleanTimer } from "./ExpectedTimer";
+import { Clock, MapPin, User, Clipboard, UserCheck, Flag } from "lucide-react";
 import { StatusBadge } from "./StatusBadge";
 import { Call } from "@/types/api/calls";
 import { useRTL } from "@/hooks/useRtl";
 import { useTranslation } from "react-i18next";
+import CallProgress from "@/pages/Calls/CallProgress";
+import CallBI from "./CallBI";
 interface DetailsPanelProps {
   call: Call; // Replace with actual type
 }
@@ -12,95 +13,104 @@ export function DetailsPanel({ call }: DetailsPanelProps) {
   const { t } = useTranslation();
   const { getNameByLanguage, textAlign, flexDirection, formatDate } = useRTL();
 
+  const sampleData = {
+    startedAt: Date.now() - 3 * 60 * 60 * 1000, // 3 hours ago
+    completeEstimation: 300, // 5 hours
+    assignedTo: {
+      name: "John Doe",
+      profilePicture:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face&auto=format",
+      timestamp: Date.now() - 2 * 60 * 60 * 1000, // 2 hours ago (after startedAt)
+    },
+    events: [
+      {
+        timestamp: Date.now() - 1.5 * 60 * 60 * 1000, // 1.5 hours ago
+        description: "Changed status to 'In Progress'",
+      },
+      {
+        timestamp: Date.now() - 1 * 60 * 60 * 1000, // 1 hour ago
+        description: "Added code review comments",
+      },
+      {
+        timestamp: Date.now() - 30 * 60 * 1000, // 30 minutes ago
+        description: "Resolved merge conflicts",
+      },
+    ],
+  };
+
   return (
     <div
       className={`flex-1 p-6 ${
         flexDirection.includes("reverse") ? "lg:border-l" : "lg:border-r"
       } border-slate-200/60`}
     >
-      <div className="space-y-4">
+      <div className="flex flex-col gap-7">
         <div>
-          <h1 className="font-bold text-slate-800 text-xl">
+          <h1 className="font-semibold text-primary text-xl">
             {getNameByLanguage(call.callCategory.name)}
           </h1>
-          {call.description && (
-            <p className="text-gray-600 text-sm mt-1">{call.description}</p>
-          )}
         </div>
+        <CallProgress {...sampleData} />
+        <CallBI
+          startedAt={new Date(sampleData.startedAt)}
+          assignedTo={{
+            name: sampleData.assignedTo.name,
+            profilePicture: sampleData.assignedTo.profilePicture,
+            assignedAt: new Date(sampleData.assignedTo.timestamp),
+          }}
+          timeLeft={8}
+        />
 
-        {/* @ts-ignore */}
-        {call.callCategory?.expectedTime && (
-          <div className="w-full">
-            <div className="flex flex-col gap-2 items-start">
-              <div className="flex gap-2 items-center  justify-center w-full">
-                <CleanTimer
-                  // @ts-ignore
-                  expectedTime={call.callCategory.expectedTime}
-                  // @ts-ignore
-                  createdAt={call.createdAt}
-                  // @ts-ignore
-                  closedAt={call.closedAt}
-                  status={call.status}
-                />
-              </div>
-              {/* <CallTimelineDisplay
-                call={call}
-                callStatusHistory={call.CallStatusHistory || []}
-                closedAt={call.closedAt}
-                expectedTime={call.callCategory.expectedTime}
-                createdAt={call.createdAt}
-              /> */}
-            </div>
-          </div>
-        )}
-
-        <div className="h-20 w-full flex gap-2">
-          <div className="w-full h-fit flex gap-4 flex-col">
-            <InfoRow
-              label={t("fields.createdAt")}
-              icon={<Clock size={16} />}
-              // @ts-ignore
-              value={formatDate(call.createdAt)}
-              {...{ textAlign, flexDirection }}
-            />
-            <InfoRow
-              label={t("reports.fields.created_by")}
-              icon={<User size={16} />}
-              value={call.createdBy.name || t("no_user")}
-              {...{ textAlign, flexDirection }}
-            />
-            <InfoRow
-              label={t("reports.fields.status")}
-              icon={<Circle size={16} />}
-              // @ts-ignore
-              value={<StatusBadge status={call.status} t={t} />}
-              {...{ textAlign, flexDirection }}
-            />
-          </div>
-
-          <div className="w-full h-fit flex gap-4 flex-col">
-            <InfoRow
-              label={t("location")}
-              icon={<MapPin size={16} />}
-              value={getNameByLanguage(call.location.name) || t("no_location")}
-              bgColor={call.location?.area?.color}
-              {...{ textAlign, flexDirection }}
-            />
-            <InfoRow
-              label={t("departments")}
-              icon={<Clipboard size={16} />}
-              value={
-                getNameByLanguage(call.Department.name) || t("no_department")
-              }
-              {...{ textAlign, flexDirection }}
-            />
-            <InfoRow
-              label={t("assigned_to")}
-              icon={<Users size={16} />}
-              value={call?.assignedTo?.name || t("no_user")}
-              {...{ textAlign, flexDirection }}
-            />
-          </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-7 mt-7">
+          <InfoRow
+            label={t("fields.createdAt")}
+            icon={<Clock />}
+            // @ts-ignore
+            value={formatDate(call.createdAt)}
+            {...{ textAlign }}
+          />
+          <InfoRow
+            label={t("reports.fields.created_by")}
+            icon={<User />}
+            value={call?.createdBy?.name || t("guest")}
+            {...{ textAlign }}
+          />
+          <InfoRow
+            label={t("departments")}
+            icon={<Clipboard />}
+            value={
+              <p className="bg-background px-2 py-px rounded-md">
+                {getNameByLanguage(call.Department.name) || t("no_department")}
+              </p>
+            }
+            {...{ textAlign }}
+          />
+          <InfoRow
+            label={t("reports.fields.status")}
+            icon={<Flag />}
+            // @ts-ignore
+            value={<StatusBadge status={call.status} t={t} />}
+            {...{ textAlign }}
+          />
+          <InfoRow
+            label={t("assigned_to")}
+            icon={<UserCheck />}
+            value={call?.assignedTo?.name || t("no_user")}
+            {...{ textAlign }}
+          />
+          <InfoRow
+            label={t("location")}
+            icon={<MapPin />}
+            value={
+              <p
+                style={{ backgroundColor: call.location?.area?.color }}
+                className="px-2 py-px rounded-md"
+              >
+                {getNameByLanguage(call.location.name) || t("no_location")}
+              </p>
+            }
+            {...{ textAlign }}
+          />
         </div>
       </div>
     </div>
@@ -110,33 +120,22 @@ export function DetailsPanel({ call }: DetailsPanelProps) {
 interface InfoRowProps {
   label: string;
   icon: React.ReactNode;
-  value: string;
+  value: string | React.ReactNode;
   textAlign: string;
-  flexDirection: string;
-  bgColor?: string;
 }
 
-function InfoRow({
-  label,
-  icon,
-  value,
-  textAlign,
-  flexDirection,
-  bgColor,
-}: InfoRowProps) {
+function InfoRow({ label, icon, value, textAlign }: InfoRowProps) {
   return (
-    <div className="flex gap-2 items-center text-gray-400 h-6">
-      <div
-        className={`flex text-base gap-2 items-center justify-end w-32 font-normal ${flexDirection}`}
-      >
-        {label} {icon}
+    <div className={`flex gap-4 min-w-[200px]`}>
+      <div className="bg-background border rounded-lg size-12 flex items-center justify-center child:size-5 child:text-muted-foreground">
+        {icon}
       </div>
-      <p
-        className={`text-base text-primary font-normal px-3 py-0.5 rounded-full ${textAlign}`}
-        style={{ backgroundColor: bgColor || "transparent" }}
-      >
-        {value}
-      </p>
+      <div className="h-full flex flex-col justify-between">
+        <h4 className={`text-sm text-muted-foreground ${textAlign}`}>
+          {label}
+        </h4>
+        <p className={`${textAlign}`}>{value}</p>
+      </div>
     </div>
   );
 }

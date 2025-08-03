@@ -12,7 +12,7 @@ export default function WorkerManagement() {
   const { t } = useTranslation();
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-surface">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold mb-4">
@@ -26,28 +26,28 @@ export default function WorkerManagement() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Mobile App Features */}
           <div className="relative">
-            <div className="bg-blue-600 rounded-3xl p-8 text-white">
+            <div className="bg-blue-600 rounded-3xl p-8 text-surface">
               <Smartphone className="w-12 h-12 mb-6" />
               <h3 className="text-2xl font-bold mb-4">
                 {t("landing.worker_management.mobile_app")}
               </h3>
               <ul className="space-y-4">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-surface rounded-full mr-2"></span>
                   {t("landing.worker_management.real_time_task_notifications")}
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-surface rounded-full mr-2"></span>
                   {t(
                     "landing.worker_management.easy_task_acceptance_and_updates"
                   )}
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-surface rounded-full mr-2"></span>
                   {t("landing.worker_management.location_based_assignments")}
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-surface rounded-full mr-2"></span>
                   {t("landing.worker_management.offline_mode_support")}
                 </li>
               </ul>
@@ -56,7 +56,7 @@ export default function WorkerManagement() {
 
           {/* Management Features */}
           <div className="grid grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-surface p-6 rounded-xl shadow-lg">
               <MessageCircle className="w-10 h-10 text-blue-600 mb-4" />
               <h4 className="text-xl font-semibold mb-3">
                 {t("landing.worker_management.team_chat")}
@@ -66,7 +66,7 @@ export default function WorkerManagement() {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-surface p-6 rounded-xl shadow-lg">
               <ClipboardList className="w-10 h-10 text-blue-600 mb-4" />
               <h4 className="text-xl font-semibold mb-3">Task Management</h4>
               <p className="text-gray-600">
@@ -74,7 +74,7 @@ export default function WorkerManagement() {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-surface p-6 rounded-xl shadow-lg">
               <Users className="w-10 h-10 text-blue-600 mb-4" />
               <h4 className="text-xl font-semibold mb-3">Staff Scheduling</h4>
               <p className="text-gray-600">
@@ -82,7 +82,7 @@ export default function WorkerManagement() {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-surface p-6 rounded-xl shadow-lg">
               <Bot className="w-10 h-10 text-blue-600 mb-4" />
               <h4 className="text-xl font-semibold mb-3">AI Assistance</h4>
               <p className="text-gray-600">

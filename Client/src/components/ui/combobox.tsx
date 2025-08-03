@@ -16,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useTranslation } from "react-i18next";
 
 interface Props<T extends string | undefined> {
   value: T;
@@ -32,6 +33,7 @@ export function Combobox<T extends string | undefined>({
   className,
   label,
 }: Props<T>) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -41,7 +43,7 @@ export function Combobox<T extends string | undefined>({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("justify-between bg-light", className)}
+          className={cn("justify-between bg-surface", className)}
         >
           {value
             ? options.find((framework) => framework.value === value)?.label
@@ -53,7 +55,7 @@ export function Combobox<T extends string | undefined>({
         <Command>
           <CommandInput placeholder={label} />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>{t("not_found")}</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem

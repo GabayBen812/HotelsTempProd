@@ -47,7 +47,7 @@ export default function Pagination<T>({ table }: PaginationProps<T>) {
         size="icon"
         disabled={!table.getCanPreviousPage()}
         onClick={() => table.previousPage()}
-        className="hover:bg-none! hover:text-white text-gray-400"
+        className="hover:bg-none! hover:text-surface text-gray-400"
       >
         <ChevronLeft className="w-4 h-4 rtl:rotate-180 ltr:rotate-0" />
       </Button>
@@ -60,8 +60,8 @@ export default function Pagination<T>({ table }: PaginationProps<T>) {
           onClick={() => typeof page === "number" && table.setPageIndex(page)}
           disabled={page === "..."}
           className={`${
-            page === pageIndex ? "text-white" : "text-gray-400"
-          } hover:bg-none! hover:text-white`}
+            page === pageIndex ? "text-surface" : "text-gray-400"
+          } hover:bg-none! hover:text-surface`}
         >
           {typeof page === "number" ? page + 1 : "..."}
         </Button>
@@ -72,7 +72,7 @@ export default function Pagination<T>({ table }: PaginationProps<T>) {
         size="icon"
         disabled={!table.getCanNextPage()}
         onClick={() => table.nextPage()}
-        className="hover:bg-none! hover:text-white text-gray-400"
+        className="hover:bg-none! hover:text-surface text-gray-400"
       >
         <ChevronRight className="w-4 h-4 rtl:rotate-180 ltr:rotate-0" />
       </Button>

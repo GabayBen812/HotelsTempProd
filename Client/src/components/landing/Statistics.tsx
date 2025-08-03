@@ -56,7 +56,7 @@ export default function Statistics() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-lg text-center"
+              className="bg-surface p-6 rounded-lg shadow-lg text-center"
             >
               <div className="flex justify-center mb-4">{stat.icon}</div>
               <div className="text-4xl font-bold text-blue-600 mb-2">

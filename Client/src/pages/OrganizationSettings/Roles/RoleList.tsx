@@ -8,9 +8,10 @@ import DynamicForm, {
 import { z } from "zod";
 import DataTable from "@/components/ui/completed/data-table";
 import { fetchRolesParams } from "@/api/roles/index";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { getRolesColumns } from "@/components/forms/roles/rolesColumns";
+import TableHeaderActions from "@/components/table-actions/TableHeaderActions";
 
 interface Props {
   setSearchParams: (
@@ -22,6 +23,7 @@ function RoleList({ setSearchParams }: Props) {
   const { t, i18n } = useTranslation();
   const { roles, createNewRole, updateRole, deleteRole } =
     useContext(OrganizationsContext);
+  const [advancedFilters, setAdvancedFilters] = useState({});
   const onRowClick = (row: Row<Role>) => {
     setSearchParams(
       new URLSearchParams({
@@ -47,6 +49,19 @@ function RoleList({ setSearchParams }: Props) {
       ar: z.string().min(2),
     }),
   });
+
+  // Build advancedFields for advanced search
+  const allowedTypes = ["select", "date", "text", "number", "checkbox"];
+  const advancedFields = FormFields.filter((f) =>
+    allowedTypes.includes(f.type)
+  ).map((f) => ({
+    name: f.name,
+    label: f.label,
+    type: f.type,
+    options: f.options,
+    placeholder: f.label,
+  }));
+
   return (
     <DataTable<Role>
       initialData={roles}
@@ -62,6 +77,16 @@ function RoleList({ setSearchParams }: Props) {
       onRowClick={(row) => onRowClick(row)}
       defaultPageSize={10}
       idField="id"
+      advancedFilters={advancedFilters}
+      setAdvancedFilters={setAdvancedFilters}
+      rightHeaderContent={
+        <TableHeaderActions
+          columns={columns}
+          filename="roles.csv"
+          advancedFields={advancedFields}
+          setAdvancedFilters={setAdvancedFilters}
+        />
+      }
       renderEditContent={({ handleSave, rowData, handleEdit }) => {
         const mode = rowData?.id ? "edit" : "create";
         return (
@@ -71,10 +96,10 @@ function RoleList({ setSearchParams }: Props) {
             headerKey="department"
             fields={FormFields}
             validationSchema={schema}
-            onSubmit={(data: z.infer<typeof schema>) => {
-              if (handleSave && mode === "create") handleSave(data);
+            onSubmit={async (data: z.infer<typeof schema>) => {
+              if (handleSave && mode === "create") await handleSave(data);
               else if (handleEdit && mode === "edit")
-                handleEdit({ id: rowData?.id, ...data });
+                await handleEdit({ id: rowData?.id, ...data });
             }}
           />
         );

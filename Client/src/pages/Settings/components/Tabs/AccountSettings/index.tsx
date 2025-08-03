@@ -85,12 +85,16 @@ function AccountSettings() {
         <h1 className="text-lg font-semibold text-primary">
           {t("account_information")}
         </h1>
-        <p className="text-sm text-secondary">{t("edit_general_settings")}</p>
+        <p className="text-sm text-muted-foreground">
+          {t("edit_general_settings")}
+        </p>
       </div>
       <div className="flex border-b border-border pb-6 items-center gap-6 w-full">
         <div className="w-72">
           <h2 className="font-semibold text-lg">{t("picture")}</h2>
-          <p className="text-sm text-secondary">{t("update_org_picture")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("update_org_picture")}
+          </p>
           {errors.logo && (
             <p className="text-sm text-red-500 mt-2">{errors.logo.message}</p>
           )}
@@ -104,7 +108,7 @@ function AccountSettings() {
               src={logo ? URL.createObjectURL(logo) : user?.logo}
               alt={user?.name}
             />
-            <AvatarFallback className="flex justify-center items-center rounded-2xl text-white bg-[var(--datatable-header)] size-16">
+            <AvatarFallback className="flex justify-center items-center rounded-2xl text-surface bg-foreground size-16">
               <Hotel className="size-10" />
             </AvatarFallback>
           </Avatar>
@@ -129,7 +133,9 @@ function AccountSettings() {
       <div className="flex border-b border-border pb-6 items-center gap-4 w-full">
         <div className="w-72">
           <h2 className="font-semibold">{t("name")}</h2>
-          <p className="text-sm text-secondary">{t("choose_org_name")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("choose_org_name")}
+          </p>
         </div>
         <div className="flex flex-col gap-1 w-full max-w-sm">
           <Input placeholder={t("name")} {...register("name")} />
@@ -141,7 +147,9 @@ function AccountSettings() {
       <div className="flex border-b border-border pb-6 items-center gap-4 w-full">
         <div className="w-72">
           <h2 className="font-semibold">{t("email")}</h2>
-          <p className="text-sm text-secondary">{t("choose_org_name")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("choose_org_name")}
+          </p>
         </div>
         <div className="flex flex-col gap-1 w-full max-w-sm">
           <Input disabled placeholder={t("email")} {...register("email")} />

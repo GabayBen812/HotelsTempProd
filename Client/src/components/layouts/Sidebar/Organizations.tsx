@@ -58,7 +58,7 @@ export function Organizations({ loading }: { loading: boolean }) {
                     src={organization?.logo}
                     alt={organization?.name}
                   />
-                  <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+                  <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                     <Hotel className="size-4" />
                   </AvatarFallback>
                 </Avatar>
@@ -98,7 +98,7 @@ export function Organizations({ loading }: { loading: boolean }) {
                       src={organizationChild?.logo}
                       alt={organizationChild?.name}
                     />
-                    <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+                    <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                       <Hotel className="size-4" />
                     </AvatarFallback>
                   </Avatar>

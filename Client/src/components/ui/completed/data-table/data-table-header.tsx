@@ -20,12 +20,11 @@ function DataTableHeader() {
             return (
               <TableHead
                 key={header.id}
-                className={`bg-primary-foreground text-white whitespace-nowrap ${
+                className={`bg-foreground text-surface whitespace-nowrap ${
                   isFirst && firstColumnRounding
                 }`}
                 style={{
                   width: header.getSize(),
-                  backgroundColor: "var(--datatable-header)",
                 }}
               >
                 {!header.isPlaceholder && (
@@ -52,8 +51,7 @@ function DataTableHeader() {
           })}
           {actions && (
             <TableHead
-              className={`text-white bg-primary-foreground ${lastColumnRounding}`}
-              style={{ backgroundColor: "var(--datatable-header)" }}
+              className={`text-surface bg-foreground ${lastColumnRounding}`}
             >
               <div className="flex w-full justify-end">
                 <Pagination table={table} />

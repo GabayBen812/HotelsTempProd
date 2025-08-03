@@ -7,23 +7,30 @@ interface AreasListProps {
   editMode: boolean;
   selectedArea?: Area | null;
   handelAreaSelect: (area: Area) => void;
+  areas?: Area[];
+  onEditArea?: (area: Area) => void;
 }
 
 function AreasList({
   editMode,
   selectedArea,
   handelAreaSelect,
+  areas,
+  onEditArea,
 }: AreasListProps) {
-  const { areas } = useContext(OrganizationsContext); // Assuming you have a context to get areas
+  const { areas: contextAreas } = useContext(OrganizationsContext);
+  const displayAreas = areas || contextAreas;
+  
   return (
     <div className="flex flex-col gap-2">
-      {areas.map((area) => (
+      {displayAreas.map((area) => (
         <AreaItem
           key={area.id}
           area={area}
           isSelected={area.id === selectedArea?.id}
           editMode={editMode}
           handelAreaSelect={handelAreaSelect}
+          onEditArea={onEditArea}
         />
       ))}
     </div>

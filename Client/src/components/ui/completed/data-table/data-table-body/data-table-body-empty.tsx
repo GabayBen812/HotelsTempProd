@@ -8,10 +8,12 @@ export function NoResultsRow({ colSpan }: { colSpan: number }) {
     <TableRow>
       <TableCell colSpan={colSpan} className="h-[clamp(12rem,22vh,18rem)]">
         <div className="w-full flex flex-col justify-end items-center h-full gap-4">
-          <Ghost size={64} className="text-secondary" />
+          <Ghost size={64} className="text-muted-foreground" />
           <div className="text-center max-w-64">
             <p className="font-medium">{t("no_results_title")}</p>
-            <p className="text-secondary">{t("no_results_description")} </p>
+            <p className="text-muted-foreground">
+              {t("no_results_description")}{" "}
+            </p>
           </div>
         </div>
       </TableCell>

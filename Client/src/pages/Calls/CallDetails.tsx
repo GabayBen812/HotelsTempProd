@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import i18n from "@/i18n";
 import { CallChat } from "@/components/calls-table/CallChat/CallChat";
+import CallProgress from "./CallProgress";
 
 const callsApi = createApiService<Call>("/calls", { includeOrgId: true });
 
@@ -142,12 +143,13 @@ export default function CallDetails() {
     call.callCategory?.expectedTime &&
     // @ts-ignore
     (new Date().getTime() - new Date(call.createdAt).getTime()) / (1000 * 60) >
-    // @ts-ignore
+      // @ts-ignore
       call.callCategory.expectedTime;
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto py-6 space-y-6 bg-black">
       {/* Header Section */}
+
       <div className="flex justify-between items-start">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-3">

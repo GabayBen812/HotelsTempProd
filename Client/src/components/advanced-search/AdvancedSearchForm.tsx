@@ -26,9 +26,15 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ fields, 
     onApply(values);
   };
 
+  // Find the date fields for range
+  const fromField = fields.find(f => f.name === 'createdAtFrom');
+  const toField = fields.find(f => f.name === 'createdAtTo');
+  const otherFields = fields.filter(f => f.name !== 'createdAtFrom' && f.name !== 'createdAtTo');
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {fields.map((field) => {
+      {/* Render all fields except the date range */}
+      {otherFields.map((field) => {
         switch (field.type) {
           case "select":
             return (
@@ -49,22 +55,6 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ fields, 
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-            );
-          case "date":
-            return (
-              <div key={field.name} className="flex flex-col gap-1">
-                <label>{field.label}</label>
-                <Calendar
-                  mode="single"
-                  selected={values[field.name]}
-                  onSelect={(date) => handleChange(field.name, date)}
-                />
-                {values[field.name] && (
-                  <span className="text-xs text-muted-foreground">
-                    {format(values[field.name], "dd/MM/yyyy")}
-                  </span>
-                )}
               </div>
             );
           case "text":
@@ -106,6 +96,37 @@ export const AdvancedSearchForm: React.FC<AdvancedSearchFormProps> = ({ fields, 
             return null;
         }
       })}
+      {/* Render the date range fields side by side */}
+      {fromField && toField && (
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col gap-1 w-1/2">
+            <label>{fromField.label}</label>
+            <Calendar
+              mode="single"
+              selected={values[fromField.name]}
+              onSelect={(date) => handleChange(fromField.name, date)}
+            />
+            {values[fromField.name] && (
+              <span className="text-xs text-muted-foreground">
+                {format(values[fromField.name], "dd/MM/yyyy")}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col gap-1 w-1/2">
+            <label>{toField.label}</label>
+            <Calendar
+              mode="single"
+              selected={values[toField.name]}
+              onSelect={(date) => handleChange(toField.name, date)}
+            />
+            {values[toField.name] && (
+              <span className="text-xs text-muted-foreground">
+                {format(values[toField.name], "dd/MM/yyyy")}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
       <div className="flex gap-2 justify-end">
         {onReset && (
           <Button type="button" variant="ghost" onClick={onReset}>

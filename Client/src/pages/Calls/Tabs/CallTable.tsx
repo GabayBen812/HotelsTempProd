@@ -19,10 +19,11 @@ import { z } from "zod";
 import { useUser } from "@/hooks/useUser";
 import { AdvancedSearchModal } from "@/components/advanced-search/AdvancedSearchModal";
 import { AdvancedSearchFieldConfig } from "@/types/advanced-search";
-import { ExportButton } from "@/components/table-actions/ExportButton";
-import { DataTableContext } from "@/contexts/DataTableContext";
+import { ExportButtonWrapper } from "@/components/table-actions/ExportButtonWrapper";
 import { ColumnVisibilityButton } from "@/components/table-actions/ColumnVisibilityButton";
 import CallsExpanded from "@/components/calls-table/CallsExpanded";
+import { User } from "@/types/api/user";
+import { ActionCell } from "@/components/calls-table/Actions/ActionCell";
 
 export default function CallTable() {
   const { departments, callCategories } = useContext(OrganizationsContext);
@@ -40,14 +41,12 @@ export default function CallTable() {
 
   const [refreshKey, setRefreshKey] = useState(0);
   const [sorting, setSorting] = useState([{ id: "status", desc: false }]);
-  const [advancedFilters, setAdvancedFilters] = useState<Record<string, any>>(
-    {}
-  );
+  const [advancedFilters, setAdvancedFilters] = useState<
+    Record<string, unknown>
+  >({});
 
   const handleCloseCall = async (callId: string | number) => {
-    const now = new Date().toISOString();
-    //@ts-ignore
-    await updateCall({ id: callId, status: "COMPLETED", closedAt: now });
+    await updateCall({ id: String(callId), status: "COMPLETED" });
     setRefreshKey((k) => k + 1);
   };
 
@@ -56,27 +55,14 @@ export default function CallTable() {
     workerId: string
   ) => {
     await updateCall({
-      //@ts-ignore
-      id: callId,
-      //@ts-ignore
-      assignedToId: workerId,
+      id: String(callId),
+      assignedToId: Number(workerId),
       status: "IN_PROGRESS",
     });
     setRefreshKey((k) => k + 1);
   };
 
-  const columns = getCallColumns(
-    t,
-    i18n,
-    statusOptions,
-    handleCloseCall,
-    handleAssignWorker,
-    //@ts-ignore
-    allUsers.map((user) => ({
-      value: user.id,
-      label: user.name || user.email || user.id,
-    }))
-  );
+  const columns = getCallColumns(t, i18n, statusOptions);
   const fields = getCallFields(
     t,
     i18n.language as "he" | "en" | "ar",
@@ -89,6 +75,20 @@ export default function CallTable() {
   const actions: TableAction<Call>[] = [
     { label: "Edit", type: "edit" },
     { type: "delete", label: "Delete" },
+    {
+      placement: "external",
+      component: (row) => (
+        <ActionCell
+          call={row.original}
+          onCloseCall={handleCloseCall}
+          onAssignWorker={handleAssignWorker}
+          users={allUsers.map((user: User) => ({
+            value: user.id,
+            label: user.name || user.email || user.id,
+          }))}
+        />
+      ),
+    },
   ];
 
   // Advanced search config for Calls
@@ -158,13 +158,14 @@ export default function CallTable() {
   ];
 
   // Modify fetchData to update tableData
-  const fetchData = async (params: any) => {
+  const fetchData = async (params: Record<string, unknown>) => {
     const mergedParams = { ...params, ...advancedFilters };
     Object.keys(mergedParams).forEach(
       (key) =>
         (mergedParams[key] === "" || mergedParams[key] == null) &&
         delete mergedParams[key]
     );
+
     const response = await fetchCallsParams(mergedParams);
     if (Array.isArray(response)) {
       return { data: response };
@@ -177,7 +178,7 @@ export default function CallTable() {
       <DataTable<Call>
         columns={columns}
         websocketUrl="/ws/calls"
-        //@ts-ignore
+        //@ts-expect-error fix later
         fetchData={fetchData}
         addData={createCall}
         updateData={updateCall}
@@ -188,61 +189,49 @@ export default function CallTable() {
         key={refreshKey}
         sorting={sorting}
         onSortingChange={setSorting}
+        advancedFilters={advancedFilters}
+        setAdvancedFilters={setAdvancedFilters}
         rightHeaderContent={
           <div className="flex items-center gap-2">
             <ColumnVisibilityButton />
-            <ExportButtonWrapper columns={columns} />
+            <ExportButtonWrapper columns={columns} filename="calls.csv" />
             <AdvancedSearchModal
               fields={advancedFields}
               onApply={setAdvancedFilters}
             />
           </div>
         }
-        // @ts-ignore
-        renderExpandedContent={({ rowData, toggleEditMode }) => {
+        renderExpandedContent={({ rowData }) => {
           return <CallsExpanded call={rowData} />;
         }}
         renderEditContent={({ rowData, handleSave, handleEdit }) => {
           const mode = rowData?.id ? "edit" : "create";
+          const filteredFields = fields.filter((f) => f.name !== "status");
           return (
             <DynamicForm
               mode={mode}
               headerKey="call"
-              fields={fields}
-              validationSchema={callFormSchema}
+              fields={filteredFields}
+              validationSchema={callFormSchema.omit({ status: true })}
               defaultValues={rowData}
-              onSubmit={(data: z.infer<typeof callFormSchema>) => {
+              onSubmit={async (data: z.infer<typeof callFormSchema>) => {
                 const department = callCategories.find(
-                  //@ts-ignore
-                  (category) => category.id === data.callCategoryId
+                  (category) => Number(category.id) === data.callCategoryId
                 )?.departmentId;
+                const status = data.assignedToId ? "IN_PROGRESS" : "OPENED";
                 const payload = {
                   ...data,
                   departmentId: department,
+                  status,
                   id: rowData?.id,
                 } as Partial<Call>;
-                if (handleSave && mode === "create") handleSave(payload);
-                if (handleEdit && mode === "edit") handleEdit(payload);
+                if (handleSave && mode === "create") await handleSave(payload);
+                if (handleEdit && mode === "edit") await handleEdit(payload);
               }}
             />
           );
         }}
       />
     </>
-  );
-}
-
-// Helper wrapper to get table instance from context and pass to ExportButton
-function ExportButtonWrapper({ columns }: { columns: any[] }) {
-  const { table } = useContext(DataTableContext);
-  return (
-    <ExportButton
-      data={table.getRowModel().rows.map((row: any) => row.original)}
-      columns={columns.map((col: any) => ({
-        id: col.accessorKey || col.id,
-        label: typeof col.header === "string" ? col.header : undefined,
-      }))}
-      filename="calls.csv"
-    />
   );
 }

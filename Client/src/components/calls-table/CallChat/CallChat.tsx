@@ -1,19 +1,14 @@
-// CallChat/index.tsx
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Hash } from "lucide-react";
 import { api } from "@/api";
-import { useAuth } from "@/hooks/useAuth";
 import { CallStatusHistory } from "@/types/api/calls";
 import { MessageItem } from "./MessageItem";
 import { StatusAlert } from "./StatusAlert";
 import { MessageInput } from "./MessageInput";
-import {
-  useMessageHandling,
-  useCombinedItems,
-  shouldGroupMessage,
-} from "@/hooks/useChat";
+import { useCombinedItems, shouldGroupMessage } from "@/hooks/useChat";
 import { Message } from "@/types/ui/chat.types";
+import { useAuth } from "@/hooks/useAuth";
 
 interface CallChatProps {
   callId: number;
@@ -26,11 +21,6 @@ export const CallChat = ({ callId, callStatusHistory }: CallChatProps) => {
   const { user } = useAuth();
 
   const combinedItems = useCombinedItems(messages, callStatusHistory);
-  const { newMessage, setNewMessage, handleSendMessage } = useMessageHandling(
-    callId,
-    user,
-    setMessages
-  );
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -49,7 +39,7 @@ export const CallChat = ({ callId, callStatusHistory }: CallChatProps) => {
   }, [combinedItems]);
 
   return (
-    <div className="flex flex-col h-[700px] bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+    <div className="flex flex-col h-[700px] bg-surface rounded-xl shadow-lg overflow-hidden border border-gray-200">
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-slate-50 to-gray-50">
         <div className="flex items-center gap-3">
@@ -97,11 +87,7 @@ export const CallChat = ({ callId, callStatusHistory }: CallChatProps) => {
       </div>
 
       {/* Input Area */}
-      <MessageInput
-        newMessage={newMessage}
-        setNewMessage={setNewMessage}
-        onSendMessage={handleSendMessage}
-      />
+      <MessageInput setMessages={setMessages} callId={callId} />
     </div>
   );
 };

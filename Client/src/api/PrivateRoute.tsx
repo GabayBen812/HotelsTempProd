@@ -23,7 +23,12 @@ const PrivateRoute: React.FC = () => {
 
   if (!isPremittedSite)
     return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-  if (isAuthenticated && isPremittedSite) return <Outlet />;
+  if (isAuthenticated && isPremittedSite)
+    return (
+      <div className="px-6 py-4">
+        <Outlet />
+      </div>
+    );
 };
 
 export default PrivateRoute;

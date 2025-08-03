@@ -63,7 +63,7 @@ export default function AiFeatures() {
           {aiFeatures.map((feature, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-surface p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="flex items-center mb-6">
                 <div className="bg-blue-50 p-3 rounded-lg">{feature.icon}</div>

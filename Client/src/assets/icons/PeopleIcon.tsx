@@ -1,10 +1,5 @@
-import { useOrganization } from "@/hooks/organization/useOrganization";
-import { resolveTheme } from "@/lib/themeUtils";
-
 function PeopleIcon({ isActive = false }) {
-  const { organization } = useOrganization();
-  const theme = organization?.customStyles?.accentColor;
-  const fill = isActive ? "var(--accent)" : resolveTheme(theme).inactiveAccent;
+  const fill = "oklch(var(--accent))";
 
   if (isActive)
     return (
@@ -19,7 +14,7 @@ function PeopleIcon({ isActive = false }) {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M7.14286 8.57059C9.1153 8.57059 10.7143 6.97161 10.7143 4.99916C10.7143 3.02672 9.1153 1.42773 7.14286 1.42773C5.17041 1.42773 3.57143 3.02672 3.57143 4.99916C3.57143 6.97161 5.17041 8.57059 7.14286 8.57059ZM7.14286 9.99916C3.19797 9.99916 0 13.1971 0 17.142V17.8563C0 18.2507 0.319797 18.5706 0.714286 18.5706H13.5714C13.9659 18.5706 14.2857 18.2507 14.2857 17.8563V17.142C14.2857 13.1971 11.0877 9.99916 7.14286 9.99916ZM19.2857 18.5706H15.9679C16.0351 18.3443 16.0714 18.1044 16.0714 17.8563V17.142C16.0714 14.2262 14.6737 11.6368 12.5117 10.0074C12.6262 10.0019 12.7413 9.99916 12.8571 9.99916C16.802 9.99916 20 13.1971 20 17.142V17.8563C20 18.2507 19.6801 18.5706 19.2857 18.5706ZM12.8571 8.57059C12.3361 8.57059 11.8411 8.45902 11.3947 8.25845C12.0879 7.35552 12.4999 6.22546 12.4999 4.99916C12.4999 3.77286 12.0879 2.64281 11.3947 1.73988C11.8411 1.53931 12.3361 1.42773 12.8571 1.42773C14.8296 1.42773 16.4286 3.02672 16.4286 4.99916C16.4286 6.97161 14.8296 8.57059 12.8571 8.57059Z"
-          fill={isActive ? "var(--accent)" : "none"}
+          fill={isActive ? fill : "none"}
         />
       </svg>
     );

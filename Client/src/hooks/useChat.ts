@@ -1,6 +1,6 @@
 // CallChat/hooks/useCombinedItems.ts
 import { useEffect, useMemo, useState } from "react";
-import { CallStatusHistory } from "@/types/api/calls";
+import { CallMessageAttachment, CallStatusHistory } from "@/types/api/calls";
 import { useSocket } from "./useSocket";
 import { User } from "@/types/api/user";
 import { Message } from "@/types/ui/chat.types";
@@ -14,10 +14,7 @@ export const useCombinedItems = (
     const statusItems = callStatusHistory.map((status) => {
       const isSameStatus = status.fromStatus === status.toStatus;
       const assignedChanged =
-        isSameStatus &&
-        status.assignedToId &&
-        status.assignedToId !== lastAssignedToId;
-      console.log(status);
+        isSameStatus && status.assignedToId !== lastAssignedToId;
 
       if (assignedChanged) {
         lastAssignedToId = status.assignedToId!;
@@ -34,7 +31,6 @@ export const useCombinedItems = (
         displayText: `Status changed from ${status.fromStatus} to ${status.toStatus}`,
       };
     });
-    console.log(statusItems, "statusItems");
 
     const combined = [
       ...messages.map((msg) => ({ ...msg, type: "message" as const })),
@@ -71,10 +67,15 @@ export const useMessageHandling = (
     };
   }, [callId, joinCallRoom, leaveCallRoom, onMessage, setMessages]);
 
-  const handleSendMessage = (e: React.FormEvent | React.KeyboardEvent) => {
+  const handleSendMessage = (
+    e: React.FormEvent | React.KeyboardEvent,
+    attachments?: CallMessageAttachment[]
+  ) => {
     e.preventDefault();
-    if (newMessage.trim() && user) {
-      sendMessage(callId, newMessage.trim());
+    console.log(attachments, "adasdasd");
+
+    if (user) {
+      sendMessage(callId, newMessage.trim(), attachments);
       setNewMessage("");
     }
   };

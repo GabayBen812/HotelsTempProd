@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { getUserFormFields } from "@/components/forms/users/usersFields";
 import { getUsersColumns } from "@/components/forms/users/usersColumns";
 import { useLocalizedMap } from "@/hooks/useLocalizedMap";
+import TableHeaderActions from "@/components/table-actions/TableHeaderActions";
 
 function Employees() {
   const { t, i18n } = useTranslation();
@@ -42,11 +43,31 @@ function Employees() {
     departmentId: z.number().optional(),
   });
 
+  const [advancedFilters, setAdvancedFilters] = useState({});
+
+  // Build advancedFields for advanced search
+  const allowedTypes = ["select", "date", "text", "number", "checkbox"];
+  const fields = getUserFormFields(
+    "create",
+    false,
+    roles,
+    departments,
+    t,
+    i18n.language as "he" | "en" | "ar"
+  );
+  const advancedFields = fields
+    .filter((f) => allowedTypes.includes(f.type))
+    .map((f) => ({
+      name: f.name,
+      label: f.label,
+      type: f.type,
+      options: f.options,
+      placeholder: f.label,
+    }));
+
   return (
-    <div className="mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-primary mb-4">
-        {t("employees_page_title")}
-      </h1>
+    <div className="space-y-6">
+      <h1 className="heading">{t("employees")}</h1>
 
       <DataTable<User>
         fetchData={fetchUsersParams}
@@ -60,6 +81,16 @@ function Employees() {
         isPagination
         defaultPageSize={10}
         idField="id"
+        advancedFilters={advancedFilters}
+        setAdvancedFilters={setAdvancedFilters}
+        rightHeaderContent={
+          <TableHeaderActions
+            columns={columns}
+            filename="employees.csv"
+            advancedFields={advancedFields}
+            setAdvancedFilters={setAdvancedFilters}
+          />
+        }
         renderExpandedContent={({ handleSave, rowData, handleEdit }) => {
           const mode = rowData?.id ? "edit" : "create";
           const role = rowData?.organizationRoles?.[0]?.role.id;

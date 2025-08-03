@@ -17,7 +17,7 @@ export const DataTableLoading = ({ colSpan }: { colSpan: number }) => {
           {skeletonColumns.map((_, colIndex) => (
             <TableCell
               key={`skeleton-cell-${rowIndex}-${colIndex}`}
-              className={`bg-white animate-pulse text-primary text-base font-normal border-b-4 border-background w-auto whitespace-nowrap transition-colors group-hover:bg-muted pointer-events-none ${
+              className={`bg-surface animate-pulse text-primary text-base font-normal border-b-4 border-background w-auto whitespace-nowrap transition-colors group-hover:bg-muted pointer-events-none ${
                 colIndex === 0 ? firstColumnRounding : "rounded-b-[1px]"
               } ${colIndex === colSpan - 1 && lastColumnRounding}`}
             >

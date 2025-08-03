@@ -37,12 +37,12 @@ function PermissionsCard({
   getAllowedScopes,
 }: Props) {
   return (
-    <Card className="border-muted shadow-sm w-full">
-      <CardContent className="p-6 space-y-4">
-        <h2 className="text-xl font-semibold capitalize border-b pb-2">
+    <Card className="shadow-sm w-full">
+      <CardContent className="p-0 flex flex-col gap-">
+        <h2 className="text-lg font-medium capitalize border-b px-4 py-3">
           {t(`resources.${resource}`) ?? resource}
         </h2>
-        <div className={`flex child:flex-1 gap-4 flex-wrap`}>
+        <div className={`flex child:flex-1 gap- flex-wrap`}>
           {actions.map((action: Action) => {
             const current = perms.find((p: Permission) => p.action === action);
             if (!current) return null;
@@ -61,11 +61,12 @@ function PermissionsCard({
             );
           })}
         </div>
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-end p-4">
           <Button
             disabled={!resourceChanged || isSaving}
             onClick={() => handleResourceSave(resource)}
-            className="rounded-xl px-5 py-2 text-sm font-medium shadow-md transition-all text-light"
+            // className="rounded-xl px-5 py-2 text-sm font-medium shadow-md transition-all text-surface"
+            variant={"default"}
           >
             {isSaving && resourceChanged
               ? t("saving", "שומר...")

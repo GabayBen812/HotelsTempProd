@@ -19,7 +19,7 @@ export const getDepartmentsColumns = (
               className="object-cover rounded-full"
               src={row.getValue("logo")}
             />
-            <AvatarFallback className="rounded-md text-white bg-[var(--datatable-header)]">
+            <AvatarFallback className="rounded-md text-surface bg-foreground">
               <Building className="size-4" />
             </AvatarFallback>
           </Avatar>
@@ -32,7 +32,10 @@ export const getDepartmentsColumns = (
     accessorKey: "name",
     header: t("name"),
     cell: ({ row }) => (
-      <div>{row.original.name[i18n.language as "he" | "en" | "ar"] || row.original.name.en}</div>
+      <div>
+        {row.original.name[i18n.language as "he" | "en" | "ar"] ||
+          row.original.name.en}
+      </div>
     ),
     size: 100,
   },

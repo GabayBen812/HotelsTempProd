@@ -27,15 +27,17 @@ export type CallStatus =
 export interface Call {
   id: string;
   description: string;
-  callCategoryId: number;
   locationId: number;
   departmentId: number;
   createdById: number;
   createdBy: User;
-  assignedToId?: number | string;
+  createdAt: Date;
+  assignedToId: number;
   assignedTo: User | null;
   closedById: number | null;
-  status: CallStatus | string;
+  closedBy?: User | null;
+  status: CallStatus;
+  callCategoryId: number;
   Department: Department;
   callCategory: CallCategory;
   location: Location;
@@ -72,4 +74,11 @@ export interface CallStatusHistory {
   changedBy?: User;
   assignedToId?: number | null;
   assignedTo?: User | null;
+}
+
+export interface CallMessageAttachment {
+  id?: string;
+  fileUrl: string;
+  fileType: string;
+  fileName: string;
 }

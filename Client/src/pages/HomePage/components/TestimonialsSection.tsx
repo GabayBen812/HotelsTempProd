@@ -62,7 +62,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
             >
-              <Card className="h-full bg-white border-0 shadow-xl">
+              <Card className="h-full bg-surface border-0 shadow-xl">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-1 mb-6">
                     {[...Array(testimonial.rating)].map((_, i) => (

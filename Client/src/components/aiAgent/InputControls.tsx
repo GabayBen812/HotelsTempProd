@@ -51,7 +51,7 @@ export const InputControls = ({
           disabled={!canSubmit}
           className={`transition-opacity p-1 bg-background rounded-full w-fit h-fit ${
             canSubmit
-              ? "bg-accent text-light"
+              ? "bg-accent text-surface"
               : "bg-background pointer-events-none"
           }`}
         >

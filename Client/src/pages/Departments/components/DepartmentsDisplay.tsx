@@ -29,7 +29,7 @@ function DepartmentDisplay({ department }: { department: Department }) {
     <>
       <Card className="sm:w-[280px] w-full h-[300px] relative overflow-hidden flex flex-col items-center justify-center cursor-pointer">
         <CardContent className="z-20 flex flex-col justify-center items-center gap-2">
-          <div className="bg-light rounded-full h-20 w-20 mb-2">
+          <div className="bg-surface rounded-full h-20 w-20 mb-2">
             <img src={image} className="rounded-full h-20 w-20 p-[2px]" />
           </div>
           <div className="font-semibold text-primary text-xl text-center">

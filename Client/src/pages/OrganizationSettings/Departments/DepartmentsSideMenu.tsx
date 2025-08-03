@@ -4,10 +4,10 @@ import { Search } from "lucide-react";
 
 export default function DepartmentsSideMenu() {
   return (
-    <div className="p-4 rounded-lg bg-white shadow-lg flex flex-col gap-4 w-80 h-[850px]">
+    <div className="p-4 rounded-lg bg-surface shadow-lg flex flex-col gap-4 w-80 h-[850px]">
       <h1 className="font-semibold text-primary text-lg">מחלקות</h1>
       <Input
-        icon={<Search className="text-secondary" />}
+        icon={<Search className="text-muted-foreground" />}
         placeholder="חיפוש..."
       />
 
@@ -37,7 +37,7 @@ function Card({ selected }: { selected?: boolean }) {
       </h2>
       <div className="flex justify-between items-center p-2 px-3 child:text-sm">
         <h4>מנהל מחלקה: יותם עפרי</h4>
-        <p className="text-secondary flex gap-2">
+        <p className="text-muted-foreground flex gap-2">
           <PeopleIcon /> 13 אנשים
         </p>
       </div>

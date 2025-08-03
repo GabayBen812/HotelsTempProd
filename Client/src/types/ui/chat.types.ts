@@ -1,12 +1,13 @@
 // CallChat/types/index.ts
-import { CallStatusHistory } from "@/types/api/calls";
+import { CallMessageAttachment, CallStatusHistory } from "@/types/api/calls";
 import { User } from "../api/user";
 
 export interface Message {
   id: number;
-  content: string;
+  content?: string;
   createdAt: string;
   user: User;
+  CallMessageAttachment: CallMessageAttachment[];
 }
 
 export interface MessageWithType extends Message {

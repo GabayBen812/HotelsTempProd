@@ -19,10 +19,11 @@ module.exports = {
       },
       colors: {
         background: {
-          DEFAULT: "hsl(var(--background))",
+          DEFAULT: "oklch(var(--background) / <alpha-value>)",
         },
-        foreground: "var(--foreground)",
-        light: "var(--light)",
+        foreground: "oklch(var(--foreground) / <alpha-value>)",
+        surface: "oklch(var(--surface) / <alpha-value>)",
+        text: "oklch(var(--text) / <alpha-value>)",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -42,17 +43,17 @@ module.exports = {
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          foreground: "oklch(var(--muted-foreground) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "var(--accent)",
+          DEFAULT: "oklch(var(--accent) / <alpha-value>)",
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "var(--border)",
+        border: "oklch(var(--border) / <alpha-value>)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         chart: {
@@ -63,20 +64,31 @@ module.exports = {
           5: "hsl(var(--chart-5))",
         },
         sidebar: {
-          DEFAULT: "var(--sidebar-background)",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "var(--sidebar-primary)",
+          DEFAULT: "oklch(var(--surface) / <alpha-value>)",
+          foreground: "oklch(var(--foreground) / <alpha-value>)",
+          primary: "oklch(var(--primary) / <alpha-value>)",
           "primary-foreground": "var(--sidebar-primary-foreground)",
-          accent: "var(--sidebar-accent)",
+          accent: "oklch(var(--accent) / <alpha-value>)",
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
+          border: "oklch(var(--border) / <alpha-value>)",
           ring: "hsl(var(--sidebar-ring))",
         },
       },
       animation: {
         aurora: "aurora 60s linear infinite",
+        bounceAndPulse: "bounceAndPulse 1.4s infinite",
       },
       keyframes: {
+        bounceAndPulse: {
+          "0%, 60%, 100%": {
+            transform: "translateY(0) scale(1)",
+            opacity: "0.7",
+          },
+          "30%": {
+            transform: "translateY(-4px) scale(1.1)",
+            opacity: "1",
+          },
+        },
         aurora: {
           from: {
             backgroundPosition: "50% 50%, 50% 50%",

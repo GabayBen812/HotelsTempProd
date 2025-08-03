@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { upsert, fetch } from "@/api/microservice/ai";
 import { uploadImage, deleteImage, getImage } from "@/lib/supabase";
 import { Loader2, FilePlus } from "lucide-react";
@@ -80,49 +79,53 @@ function AiChatSettings() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-10 px-4 pb-12">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight">
-          {t("aiChatSettings.title")}
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          {t("aiChatSettings.description")}
-        </p>
-      </div>
-
+    <div className="flex flex-col gap-4">
       {/* Instructions Section */}
-      <section className="bg-muted/50 border border-muted rounded-2xl p-6 space-y-4 shadow-sm">
-        <div className="space-y-1">
-          <Label className="text-base font-semibold">
+      <section className="flex flex-col gap-4 border-b pb-6">
+        <div>
+          <h2 className="font-semibold">
             {t("aiChatSettings.instructionsLabel")}
-          </Label>
+          </h2>
           <p className="text-sm text-muted-foreground">
             {t("aiChatSettings.instructionsHint")}
           </p>
         </div>
+
         <Textarea
           value={contextText}
           onChange={(e) => setContextText(e.target.value)}
           placeholder={t("aiChatSettings.textareaPlaceholder")}
-          className="w-full h-40 resize-none text-sm rounded-xl"
+          className="w-full h-52 resize-none text-sm bg-surface max-w-4xl"
         />
       </section>
 
       {/* Upload Section */}
-      <section className="bg-muted/50 border border-muted rounded-2xl p-6 space-y-4 shadow-sm">
-        <div className="space-y-1">
-          <Label className="text-base font-semibold">
-            {t("aiChatSettings.uploadLabel")}
-          </Label>
+      <section className="flex flex-col gap-4 border-b pb-6">
+        <div>
+          <h2 className="font-semibold">{t("aiChatSettings.uploadLabel")}</h2>
           <p className="text-sm text-muted-foreground">
             {t("aiChatSettings.uploadHint")}
           </p>
         </div>
 
+        {fileUrls.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl">
+            {fileUrls.map((url) => {
+              const fileName = decodeURIComponent(url.split("/").pop() || "");
+              return (
+                <FilePreview
+                  key={url}
+                  fileName={fileName}
+                  onRemove={() => handleFileRemove(url)}
+                  loading={uploadingFiles.includes(url)}
+                />
+              );
+            })}
+          </div>
+        )}
         <div className={"rlt:text-right lrt:text-left"}>
           <Button
-            variant="outline"
+            variant="secondary"
             className="flex gap-2 items-center"
             onClick={() => fileInputRef.current?.click()}
           >
@@ -137,34 +140,17 @@ function AiChatSettings() {
             className="hidden"
           />
         </div>
-
-        {fileUrls.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {fileUrls.map((url) => {
-              const fileName = decodeURIComponent(url.split("/").pop() || "");
-              return (
-                <FilePreview
-                  key={url}
-                  fileName={fileName}
-                  onRemove={() => handleFileRemove(url)}
-                  loading={uploadingFiles.includes(url)}
-                />
-              );
-            })}
-          </div>
-        )}
       </section>
 
       {/* Save Button */}
-      <div className={isRTL ? "flex justify-start" : "flex justify-end"}>
+      <div className={isRTL ? "flex justify-end" : "flex justify-start"}>
         <Button
           onClick={handleSave}
           variant={"default"}
           disabled={isSubmitting}
-          className="px-6 py-2 text-sm rounded-xl"
         >
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {t("aiChatSettings.saveButton")}
+          {t("save")}
         </Button>
       </div>
     </div>

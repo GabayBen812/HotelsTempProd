@@ -8,43 +8,48 @@ import {
   Shield,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { GetDirection } from "@/lib/i18n";
 
 export default function AICapabilities() {
+  const { t } = useTranslation();
+  const direction = GetDirection();
+  
   const capabilities = [
     {
       icon: Brain,
-      title: "אוטומציה חכמה",
-      description: "ניתוב משימות חכם והקצאת עדיפויות לפי הקשר",
+      title: t("smart_automation"),
+      description: t("smart_automation_desc"),
     },
     {
       icon: TrendingUp,
-      title: "תובנות אסטרטגיות",
-      description: "המלצות מבוססות נתונים לשיפור תפעול וזמני פתרון פניות",
+      title: t("strategic_insights"),
+      description: t("strategic_insights_desc"),
     },
     {
       icon: Zap,
-      title: "פעולות מהירות",
-      description: "בעל יכולת ליצור ולעדכן פניות, מחלקות, ועוד",
+      title: t("fast_actions"),
+      description: t("fast_actions_desc"),
     },
     {
       icon: BarChart3,
-      title: "דיווח בזמן אמת",
-      description: "לוחות נתונים בזמן אמת עם תובנות ומדדים לפעולה",
+      title: t("real_time_reporting"),
+      description: t("real_time_reporting_desc"),
     },
     {
       icon: Target,
-      title: "עוזר אישי",
-      description: "לומד את בית המלון שלך, ועונה על שאלות באופן אוטומטי",
+      title: t("personal_assistant"),
+      description: t("personal_assistant_desc"),
     },
     {
       icon: Shield,
-      title: "ניטור פרואקטיבי",
-      description: "מערכות התרעה מוקדמת לסיכונים ובעיות תאימות",
+      title: t("proactive_monitoring"),
+      description: t("proactive_monitoring_desc"),
     },
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 px-6">
+    <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50 px-6" dir={direction ? "rtl" : "ltr"}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -53,14 +58,13 @@ export default function AICapabilities() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            מופעל על ידי{" "}
+            {t("powered_by")}{" "}
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              בינה מלאכותית
+              {t("artificial_intelligence")}
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            מנוע הבינה המלאכותית שלנו לומד כל הזמן מהפעילות שלך כדי לספק תובנות
-            חכמות יותר, תגובות מהירות יותר וזרימות עבודה יעילות יותר
+            {t("ai_engine_description")}
           </p>
         </motion.div>
 
@@ -72,10 +76,10 @@ export default function AICapabilities() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="h-full bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="h-full bg-surface/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-6 text-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <capability.icon className="w-6 h-6 text-white" />
+                    <capability.icon className="w-6 h-6 text-surface" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {capability.title}
@@ -99,7 +103,7 @@ export default function AICapabilities() {
         >
           <Card className="bg-gradient-to-r from-purple-600 to-pink-600 border-0 shadow-2xl">
             <CardContent className="p-12">
-              <div className="grid md:grid-cols-3 gap-8 items-center text-white">
+              <div className="grid md:grid-cols-3 gap-8 items-center text-surface">
                 <div>
                   <div className="text-4xl font-bold mb-2">99.9%</div>
                   <div className="text-purple-100">System Uptime</div>

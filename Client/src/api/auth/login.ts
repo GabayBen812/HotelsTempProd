@@ -8,6 +8,8 @@ export const login = async (
 ): Promise<MutationResponse<User>> => {
   try {
     const response = await apiClient.post<User>("/auth/login", credentials);
+    console.log("Login response:", response);
+
     return { status: response.status, data: response.data };
   } catch (error) {
     console.error("Error during login:", error);

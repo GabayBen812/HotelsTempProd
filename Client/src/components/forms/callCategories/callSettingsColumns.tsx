@@ -13,7 +13,7 @@ export const getCallSettingsColumns = <T,>(
     cell: ({ row }) => (
       <Avatar className="rounded-md size-12">
         <AvatarImage className="object-cover" src={row.getValue("logo")} />
-        <AvatarFallback className="bg-sidebar-primary text-white rounded-md">
+        <AvatarFallback className="bg-sidebar-primary text-surface rounded-md">
           <DoorOpen className="size-4" />
         </AvatarFallback>
       </Avatar>
@@ -24,7 +24,11 @@ export const getCallSettingsColumns = <T,>(
     accessorKey: "name",
     header: t("name"),
     cell: ({ row }) => {
-      const name = row.getValue("name") as { he: string; en: string; ar: string };
+      const name = row.getValue("name") as {
+        he: string;
+        en: string;
+        ar: string;
+      };
       return <div>{name[i18n.language as "he" | "en" | "ar"] || name.en}</div>;
     },
     size: 100,

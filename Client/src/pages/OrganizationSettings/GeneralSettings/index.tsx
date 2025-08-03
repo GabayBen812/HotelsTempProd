@@ -1,4 +1,4 @@
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,23 +11,53 @@ import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { useOrganization } from "@/hooks/organization/useOrganization";
 import { handleLogoUpload } from "@/lib/formUtils";
 import { getImage } from "@/lib/supabase";
-import { resolveTheme } from "@/lib/themeUtils";
+import ThemePlaceholder from "./components/ThemePlaceholder";
 
-const themeColors = ["blue", "dark", "green", "red", "gray"] as const;
-
-const schema = z.object({
+export const orgSchema = z.object({
   name: z.string().min(1, "שדה חובה"),
   logo: z.any().optional(),
-  theme: z.enum(themeColors),
+  theme: z.object({
+    foreground: z.string().optional(),
+    primary: z.string().optional(),
+    "muted-foreground": z.string().optional(),
+    accent: z.string().optional(),
+    border: z.string().optional(),
+    surface: z.string().optional(),
+    background: z.string().optional(),
+  }),
 });
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof orgSchema>;
 
 export default function GeneralSettings() {
-  const { organization } = useContext(OrganizationsContext);
+  const { organization, setOrganizationLocally } =
+    useContext(OrganizationsContext);
+  const [originalTheme] = useState(organization?.customStyles);
   const { updateOrganization, refetchOrganization } = useOrganization();
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Helper to get CSS variable value by key
+  const getCssVar = (key: string) => {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue(`--${key}`)
+      .trim();
+  };
+
+  // Build default theme values from organization.customStyles or CSS vars
+  const defaultTheme = {
+    foreground:
+      organization?.customStyles?.foreground || getCssVar("foreground"),
+    primary: organization?.customStyles?.primary || getCssVar("primary"),
+    "muted-foreground":
+      organization?.customStyles?.["muted-foreground"] ||
+      getCssVar("muted-foreground"),
+    accent: organization?.customStyles?.accent || getCssVar("accent"),
+    border: organization?.customStyles?.border || getCssVar("border"),
+    background:
+      organization?.customStyles?.background || getCssVar("background"),
+    surface: organization?.customStyles?.surface || getCssVar("surface"),
+  };
 
   const {
     register,
@@ -37,45 +67,15 @@ export default function GeneralSettings() {
     watch,
     formState: { errors, isDirty, isSubmitting },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(orgSchema),
     defaultValues: {
       name: organization?.name || "",
       logo: undefined,
-      theme:
-        (organization?.customStyles?.accentColor as FormValues["theme"]) ||
-        "blue",
+      theme: defaultTheme,
     },
   });
 
   const logoPreview = watch("logo");
-  const theme = watch("theme");
-
-  useEffect(() => {
-    const accentColor = organization?.customStyles?.accentColor;
-    const resolvedColor = resolveTheme(accentColor).accent;
-    const resolvedTablesColor = resolveTheme(accentColor).datatableHeader;
-    const resolveColorPrimary = resolveTheme(accentColor).primary;
-    const resolvedBackgroundColor = resolveTheme(accentColor).background;
-    const resolvedTabsBg = resolveTheme(accentColor).tabsBg;
-    document.documentElement.style.setProperty("--accent", resolvedColor);
-    document.documentElement.style.setProperty(
-      "--sidebar-accent",
-      resolvedColor
-    );
-    document.documentElement.style.setProperty(
-      "--datatable-header",
-      resolvedTablesColor
-    );
-    document.documentElement.style.setProperty(
-      "--primary",
-      resolveColorPrimary
-    );
-    document.documentElement.style.setProperty(
-      "--background",
-      resolvedBackgroundColor
-    );
-    document.documentElement.style.setProperty("--border", resolvedTabsBg);
-  }, [organization]);
 
   const onSubmit = async (data: FormValues) => {
     if (!organization) return;
@@ -94,8 +94,7 @@ export default function GeneralSettings() {
       name: data.name,
       logo: fullImagePath,
       customStyles: {
-        ...organization.customStyles,
-        accentColor: data.theme,
+        ...data.theme,
       },
     });
 
@@ -108,11 +107,11 @@ export default function GeneralSettings() {
   const onReset = () => {
     reset({
       name: organization?.name || "",
-      theme:
-        (organization?.customStyles?.accentColor as FormValues["theme"]) ||
-        "blue",
+      theme: originalTheme,
       logo: undefined,
     });
+    console.log({ originalTheme, org: organization?.customStyles });
+    setOrganizationLocally({ customStyles: originalTheme });
   };
 
   const triggerFileInput = () => {
@@ -122,10 +121,12 @@ export default function GeneralSettings() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {/* Name */}
-      <div className="flex border-b border-border pb-6 items-center gap-4">
+      <div className="flex border-b pb-6 items-center gap-4">
         <div className="w-72">
           <h2 className="font-semibold">{t("organization_name")}</h2>
-          <p className="text-sm text-secondary">{t("choose_org_name")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("choose_org_name")}
+          </p>
         </div>
         <div className="flex flex-col gap-1 w-full max-w-sm">
           <Input placeholder="מלונות" {...register("name")} />
@@ -136,33 +137,21 @@ export default function GeneralSettings() {
       </div>
 
       {/* Theme */}
-      <div className="flex border-b border-border pb-4 items-center">
+      <div className="flex border-b border-border pb-4 items-center gap-4">
         <div className="w-72">
           <h2 className="font-semibold">{t("theme")}</h2>
-          <p className="text-sm text-secondary">{t("select_theme")}</p>
+          <p className="text-sm text-muted-foreground">{t("select_theme")}</p>
         </div>
-        <div className="flex gap-4 items-center">
-          {themeColors.map((color) => (
-            <div
-              key={color}
-              onClick={() => setValue("theme", color, { shouldDirty: true })}
-              className={`size-8 rounded-lg cursor-pointer border-2 transition-transform transform 
-                ${
-                  theme === color
-                    ? "scale-110 border-primary"
-                    : "border-transparent hover:scale-110"
-                }`}
-              style={{ backgroundColor: resolveTheme(color).accent }}
-            />
-          ))}
-        </div>
+        <ThemePlaceholder setValue={setValue} watch={watch} />
       </div>
 
       {/* Image */}
       <div className="flex border-b border-border pb-4 items-center gap-4">
         <div className="w-72">
           <h2 className="font-semibold">{t("picture")}</h2>
-          <p className="text-sm text-secondary">{t("update_org_picture")}</p>
+          <p className="text-sm text-muted-foreground">
+            {t("update_org_picture")}
+          </p>
         </div>
         <div className="flex gap-4 items-center">
           <Avatar
@@ -177,7 +166,7 @@ export default function GeneralSettings() {
               }
               alt={organization?.name}
             />
-            <AvatarFallback className="flex justify-center items-center rounded-2xl text-white bg-[var(--datatable-header)] size-16">
+            <AvatarFallback className="flex justify-center items-center rounded-2xl text-surface bg-foreground size-16">
               <Hotel className="size-10" />
             </AvatarFallback>
           </Avatar>
@@ -195,20 +184,34 @@ export default function GeneralSettings() {
           />
         </div>
       </div>
-
-      {/* Buttons */}
-      <div className="flex gap-2 justify-end">
-        <Button
-          variant="secondary"
-          disabled={!isDirty}
-          onClick={onReset}
-          type="button"
-        >
-          {t("reset")}
-        </Button>
-        <Button loading={isSubmitting} disabled={!isDirty} type="submit">
-          {t("save")}
-        </Button>
+      <div
+        className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-surface rounded-2xl shadow-xl px-4 py-3 transition-all duration-300 ease-in-out w-fit border ${
+          isDirty
+            ? "translate-y-0 opacity-100"
+            : "translate-y-4 opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="flex items-center gap-12">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">
+              שים לב - יש לך שינויים לא שמורים!
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              className="text-accent"
+              disabled={!isDirty}
+              onClick={onReset}
+              type="button"
+            >
+              {t("reset")}
+            </Button>
+            <Button loading={isSubmitting} disabled={!isDirty} type="submit">
+              {t("save")}
+            </Button>
+          </div>
+        </div>
       </div>
     </form>
   );

@@ -7,7 +7,9 @@ interface AdvancedSearchButtonProps {
   onClick: () => void;
 }
 
-export const AdvancedSearchButton: React.FC<AdvancedSearchButtonProps> = ({ onClick }) => {
+export const AdvancedSearchButton: React.FC<AdvancedSearchButtonProps> = ({
+  onClick,
+}) => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,7 +22,7 @@ export const AdvancedSearchButton: React.FC<AdvancedSearchButtonProps> = ({ onCl
       initial={{ width: 40 }}
       animate={{ width: isHovered ? 140 : 40 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="overflow-hidden flex items-center gap-2 whitespace-nowrap border border-gray-300 rounded-md px-2 py-2 bg-white hover:bg-gray-100 text-black focus:outline-none"
+      className="overflow-hidden flex items-center gap-2 whitespace-nowrap border border-gray-300 rounded-md px-2 py-2 bg-surface hover:bg-gray-100 text-black focus:outline-none"
       aria-label={t("reports.filters.apply")}
     >
       <Filter className="w-5 h-5 shrink-0 text-black" />
@@ -40,4 +42,4 @@ export const AdvancedSearchButton: React.FC<AdvancedSearchButtonProps> = ({ onCl
       </AnimatePresence>
     </motion.button>
   );
-}; 
+};

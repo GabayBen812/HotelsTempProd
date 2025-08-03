@@ -5,20 +5,20 @@ export default function AccessibilityStatement() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-surface">
         {t("accessibilityStatement.title")}
       </h1>
 
       <div className="space-y-6 text-gray-700 dark:text-gray-300">
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.commitment")}
           </h2>
           <p className="mb-4">{t("accessibilityStatement.commitmentText")}</p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.conformance")}
           </h2>
           <p className="mb-4">{t("accessibilityStatement.conformanceText")}</p>
@@ -30,7 +30,7 @@ export default function AccessibilityStatement() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.features")}
           </h2>
           <p className="mb-4">{t("accessibilityStatement.featuresIntro")}</p>
@@ -46,7 +46,7 @@ export default function AccessibilityStatement() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.compatibility")}
           </h2>
           <p className="mb-4">
@@ -61,7 +61,7 @@ export default function AccessibilityStatement() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.contact")}
           </h2>
           <p className="mb-4">{t("accessibilityStatement.contactText")}</p>
@@ -79,7 +79,7 @@ export default function AccessibilityStatement() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-surface">
             {t("accessibilityStatement.updates")}
           </h2>
           <p>{t("accessibilityStatement.updatesText")}</p>

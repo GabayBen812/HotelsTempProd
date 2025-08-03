@@ -43,6 +43,7 @@ export interface DataTableProps<TData> {
   searchable?: boolean;
   isPagination?: boolean;
   actions?: TableAction<TData>[] | null;
+  test?: string;
   defaultPageSize?: number;
   renderExpandedContent?: (
     props: ExpandedContentProps<TData>

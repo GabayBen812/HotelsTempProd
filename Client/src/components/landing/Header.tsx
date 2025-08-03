@@ -51,7 +51,7 @@ export default function Header() {
             </DropdownMenu>
             <Link
               to="/login"
-              className="btn-sm inline-flex items-center text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded shadow"
+              className="btn-sm inline-flex items-center text-surface bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded shadow"
             >
               {t("login")}
             </Link>

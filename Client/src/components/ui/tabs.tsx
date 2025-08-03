@@ -25,7 +25,7 @@ const tabsTriggerVariants = cva("inline-flex items-center justify-center", {
       outline:
         "px-3 py-1.5 text-sm font-medium ring-offset-background transition-all data-[state=inactive]:border-b data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:text-foreground text-muted-foreground",
       boxed:
-        "px-5 py-[6px] text-base text-normal rounded-md transition-colors duration-200 data-[state=active]:font-medium data-[state=active]:bg-[var(--border)] ",
+        "px-5 py-[6px] text-base text-normal rounded-md transition-colors duration-200 data-[state=active]:font-medium data-[state=active]:bg-border",
     },
   },
   defaultVariants: {

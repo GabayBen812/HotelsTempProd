@@ -36,7 +36,7 @@ export default function EfficiencyBenefits() {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-surface">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold mb-4">
@@ -51,9 +51,9 @@ export default function EfficiencyBenefits() {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="relative bg-white p-6 rounded-xl border-2 border-blue-100 hover:border-blue-500 transition-colors duration-300"
+              className="relative bg-surface p-6 rounded-xl border-2 border-blue-100 hover:border-blue-500 transition-colors duration-300"
             >
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full border-2 border-blue-100">
+              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-surface p-4 rounded-full border-2 border-blue-100">
                 {benefit.icon}
               </div>
               <div className="mt-8 text-center">
@@ -75,7 +75,7 @@ export default function EfficiencyBenefits() {
             <p className="text-gray-600">
               {t("landing.efficiency_benefits.roi_calculator_description")}
             </p>
-            <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <button className="mt-4 bg-blue-600 text-surface px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
               {t("landing.efficiency_benefits.calculate_savings")}
             </button>
           </div>

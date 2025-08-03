@@ -171,7 +171,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
         isFullScreen
           ? "fixed inset-0 w-full h-full"
           : "fixed bottom-6 rtl:left-6 ltr:right-6 w-[28rem] min-h-[28rem] max-h-[90vh]"
-      } bg-white rounded-2xl shadow-lg z-50 border flex flex-col overflow-hidden transition-all duration-300`}
+      } bg-surface rounded-2xl shadow-lg z-50 border flex flex-col overflow-hidden transition-all duration-300`}
     >
       <ChatHeader
         isFullScreen={isFullScreen}
@@ -185,7 +185,7 @@ export default function ChatWindow({ onClose }: ChatWindowProps) {
         userName={auth.user!.name}
       />
 
-      <div className="p-2 border-t flex flex-col gap-2 bg-white relative">
+      <div className="p-2 border-t flex flex-col gap-2 bg-surface relative">
         <FileInputSection
           uploadedFiles={uploadedFiles}
           loadingFiles={loadingFiles}

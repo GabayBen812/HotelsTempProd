@@ -35,7 +35,7 @@ export default function DepartmentUsers() {
                 className="object-cover rounded-full"
                 src={row.getValue("logo")}
               />
-              <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+              <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                 <Building className="size-4" />
               </AvatarFallback>
             </Avatar>
@@ -47,20 +47,16 @@ export default function DepartmentUsers() {
     {
       accessorKey: "name",
       header: t("name"),
-      cell: ({ row }) => <div>{row.original.name[i18n.language as "he" | "en" | "ar"]}</div>,
+      cell: ({ row }) => (
+        <div>{row.original.name[i18n.language as "he" | "en" | "ar"]}</div>
+      ),
       size: 100,
     },
   ];
 
   const actions: TableAction<Department>[] = [
-    { label: "Edit" },
-    {
-      type: "delete",
-      label: "Delete",
-      // onClick: (rowData) => {
-      //   console.log(rowData.id);
-      // },
-    },
+    { type: "edit", label: "Edit" },
+    { type: "delete", label: "Delete" },
   ];
   const userFormFields: FieldConfig[] = [
     { name: "logo", label: t("picture"), type: "image" },
@@ -133,11 +129,10 @@ export default function DepartmentUsers() {
 
                 if (!isCreateMode) departmentData.id = rowData?.id;
 
-                if (isCreateMode && handleSave) {
-                  handleSave(departmentData);
-                } else if (!isCreateMode && handleEdit) {
-                  handleEdit(departmentData);
-                }
+                if (isCreateMode && handleSave)
+                  await handleSave(departmentData);
+                else if (!isCreateMode && handleEdit)
+                  await handleEdit(departmentData);
               }}
             />
           );

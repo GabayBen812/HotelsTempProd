@@ -6,7 +6,7 @@ export default function Hero() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative bg-blue-600 text-white overflow-hidden">
+    <section className="relative bg-blue-600 text-surface overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 w-full h-full opacity-10">
         <div className="absolute inset-0 grid grid-cols-6 gap-2">
@@ -33,13 +33,13 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-center  ">
               <Link
                 to="/login"
-                className="btn-sm bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg shadow-lg font-semibold"
+                className="btn-sm bg-surface text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg shadow-lg font-semibold"
               >
                 {t("login")}
               </Link>
               <Link
                 to="/contact"
-                className="btn-sm bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg shadow-lg font-semibold"
+                className="btn-sm bg-blue-700 hover:bg-blue-800 text-surface px-6 py-3 rounded-lg shadow-lg font-semibold"
               >
                 {t("user_actions.contact")}
               </Link>

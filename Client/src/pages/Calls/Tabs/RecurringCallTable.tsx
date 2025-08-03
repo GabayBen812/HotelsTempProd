@@ -14,9 +14,12 @@ import { useLocalizedMap } from "@/hooks/useLocalizedMap";
 import DynamicForm from "@/components/forms/DynamicForm";
 import { RecurringCall } from "@/types/api/calls";
 import { TableAction } from "@/types/ui/data-table-types";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
+import { ColumnVisibilityButton } from "@/components/table-actions/ColumnVisibilityButton";
+import { AdvancedSearchModal } from "@/components/advanced-search/AdvancedSearchModal";
+import { ExportButtonWrapper } from "@/components/table-actions/ExportButtonWrapper";
 
 export default function RecurringCallTable() {
   const { departments, callCategories } = useContext(OrganizationsContext);
@@ -42,6 +45,22 @@ export default function RecurringCallTable() {
     { label: "Edit", type: "edit" },
     { type: "delete", label: "Delete" },
   ];
+  const [advancedFilters, setAdvancedFilters] = useState<Record<string, any>>(
+    {}
+  );
+
+  // Advanced search config for Recurring Calls
+  const allowedTypes = ["select", "date", "text", "number", "checkbox"];
+  const advancedFields = fields
+    .filter((f) => allowedTypes.includes(f.type))
+    .map((f) => ({
+      name: f.name,
+      label: f.label,
+      type: f.type as "select" | "date" | "text" | "number" | "checkbox",
+      options: f.options,
+      placeholder: f.label,
+    }));
+
   return (
     <DataTable
       fetchData={fetchRecurringCallsParams}
@@ -52,6 +71,21 @@ export default function RecurringCallTable() {
       columns={columns}
       actions={actions}
       showAddButton
+      advancedFilters={advancedFilters}
+      setAdvancedFilters={setAdvancedFilters}
+      rightHeaderContent={
+        <div className="flex items-center gap-2">
+          <ColumnVisibilityButton />
+          <ExportButtonWrapper
+            columns={columns}
+            filename="recurring_calls.csv"
+          />
+          <AdvancedSearchModal
+            fields={advancedFields}
+            onApply={setAdvancedFilters}
+          />
+        </div>
+      }
       renderExpandedContent={({ rowData, handleEdit, handleSave }) => {
         const mode = rowData?.id ? "edit" : "create";
         return (
@@ -60,7 +94,7 @@ export default function RecurringCallTable() {
             fields={fields}
             validationSchema={recurringCallFormSchema}
             defaultValues={rowData}
-            onSubmit={(data: z.infer<typeof recurringCallFormSchema>) => {
+            onSubmit={async (data: z.infer<typeof recurringCallFormSchema>) => {
               const department = callCategories.find(
                 // @ts-ignore
                 (category) => category.id === data.callCategoryId
@@ -70,9 +104,8 @@ export default function RecurringCallTable() {
                 departmentId: department,
                 id: rowData?.id,
               } as any;
-              if (mode === "create" && handleSave) return handleSave(payload);
-              else if (mode === "edit" && handleEdit)
-                return handleEdit(payload);
+              if (mode === "create" && handleSave) await handleSave(payload);
+              else if (mode === "edit" && handleEdit) await handleEdit(payload);
             }}
           />
         );

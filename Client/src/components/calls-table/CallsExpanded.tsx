@@ -6,7 +6,7 @@ export default function CallsExpanded({ call }: { call: Call }) {
   const isRTL = false;
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-200/60 rounded-xl overflow-hidden">
+    <div className="bg-gradient-to-br from-slate-50 via-surface to-slate-50 border border-slate-200/60 rounded-xl overflow-hidden">
       <div
         className={`flex flex-col lg:flex-row ${
           isRTL ? "lg:flex-row-reverse" : ""

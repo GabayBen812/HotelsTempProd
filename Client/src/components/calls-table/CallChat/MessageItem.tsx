@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { formatDateTime } from "@/lib/dateUtils";
 import { getInitials, getUserBadgeColor } from "@/hooks/useChat";
 import { Message } from "@/types/ui/chat.types";
+import { FilePreview } from "@/components/miscellaneous/Files/FilePreview";
+import { CallMessageAttachment } from "@/types/api/calls";
 
 interface MessageItemProps {
   message: Message;
@@ -31,7 +33,7 @@ export const MessageItem = ({
         {/* Avatar Column */}
         <div className="flex-shrink-0 w-10">
           {!isGrouped ? (
-            <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+            <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-surface shadow-sm">
               {message.user.logo ? (
                 <img
                   src={message.user.logo}
@@ -39,7 +41,7 @@ export const MessageItem = ({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center font-semibold text-sm">
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 text-surface flex items-center justify-center font-semibold text-sm">
                   {getInitials(message.user)}
                 </div>
               )}
@@ -55,7 +57,6 @@ export const MessageItem = ({
 
         {/* Message Content */}
         <div className="flex-1 min-w-0">
-          {/* Header with name and timestamp - only for non-grouped messages */}
           {!isGrouped && (
             <div className="flex items-center gap-2 mb-1">
               <span className="font-semibold text-gray-900 text-sm">
@@ -79,12 +80,64 @@ export const MessageItem = ({
             </div>
           )}
 
+          {/* Attachments */}
+          {message.CallMessageAttachment &&
+            message.CallMessageAttachment.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-1 pt-2">
+                <RenderFiles attachments={message.CallMessageAttachment} />
+              </div>
+            )}
+
           {/* Message Text */}
-          <div className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap break-words">
-            {message.content}
-          </div>
+          {message.content && (
+            <div className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap break-words">
+              {message.content}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
+  );
+};
+
+const isImage = (fileType: string, fileName: string) => {
+  const ext = fileName.split(".").pop()?.toLowerCase();
+  return (
+    fileType.startsWith("image/") ||
+    ["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(ext || "")
+  );
+};
+
+const RenderFiles = ({
+  attachments,
+}: {
+  attachments: CallMessageAttachment[];
+}) => {
+  return (
+    <div className="flex flex-wrap gap-2 mb-1 pt-2">
+      {attachments.map((file, i) => {
+        const showImage = isImage(file.fileType, file.fileName);
+
+        return (
+          <a
+            key={i}
+            href={file.fileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-90 transition-all"
+          >
+            {showImage ? (
+              <img
+                src={file.fileUrl}
+                alt={file.fileName}
+                className="max-w-[200px] max-h-[200px] rounded-lg shadow-sm border border-border object-cover"
+              />
+            ) : (
+              <FilePreview fileName={file.fileName} loading={false} readOnly />
+            )}
+          </a>
+        );
+      })}
+    </div>
   );
 };

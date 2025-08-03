@@ -129,13 +129,13 @@ const TimelineStep = ({
 
   const getStepStyles = () => {
     if (isCancelled) {
-      return "bg-red-500 border-red-500 text-white shadow-lg shadow-red-200";
+      return "bg-red-500 border-red-500 text-surface shadow-lg shadow-red-200";
     }
     if (isCompleted) {
-      return "bg-green-500 border-green-500 text-white shadow-lg shadow-green-200";
+      return "bg-green-500 border-green-500 text-surface shadow-lg shadow-green-200";
     }
     if (isActive) {
-      return `bg-white ${color.border} ${color.text} shadow-lg animate-pulse`;
+      return `bg-surface ${color.border} ${color.text} shadow-lg animate-pulse`;
     }
     return "bg-gray-100 border-gray-300 text-gray-400";
   };
@@ -172,7 +172,7 @@ const TimelineStep = ({
       )}
 
       {/* Step Circle */}
-      <div className="z-10 px-1 bg-white">
+      <div className="z-10 px-1 bg-surface">
         <div
           className={`w-12 h-12 rounded-full flex items-center justify-center border-3 transition-all duration-300 z-10 ${getStepStyles()}`}
         >
@@ -455,7 +455,7 @@ export const CallTimelineDisplay = ({
 
       {/* Horizontal Timeline */}
       <div className="w-full">
-        <div className="flex items-start justify-between gap-4 overflow-x-auto pb-4 bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
+        <div className="flex items-start justify-between gap-4 overflow-x-auto pb-4 bg-surface rounded-xl border border-gray-100 p-6 shadow-sm">
           {steps.map((step, index) => (
             // @ts-ignore
             <TimelineStep

@@ -12,7 +12,9 @@ import {
 } from "@/api/locations/index";
 import { Location } from "@/types/api/locations";
 import i18n from "@/i18n";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import TableHeaderActions from "@/components/table-actions/TableHeaderActions";
+import ChatBotLinkButtons from "@/components/tables/location/actions/ChatBotLinkButtons";
 
 interface LocationsTableProps {
   areaId: number;
@@ -38,8 +40,12 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
   ];
 
   const actions: TableAction<Location>[] = [
-    { label: t("edit") },
+    { type: "edit", label: t("edit") },
     { type: "delete", label: t("delete") },
+    {
+      placement: "external",
+      component: (row) => <ChatBotLinkButtons location={row.original} />,
+    },
   ];
 
   const locationFormFields: FieldConfig[] = [
@@ -55,7 +61,7 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
     name: z.object({
       he: z.string().min(2),
       en: z.string().min(2),
-      ar: z.string().min(2),
+      ar: z.string().min(2).optional(),
     }),
     roomNumber: z.coerce.number().optional(),
   });
@@ -63,6 +69,20 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
     (params: ApiQueryParams) => fetchLocationById(areaId, params),
     [areaId]
   );
+  const [advancedFilters, setAdvancedFilters] = useState({});
+
+  // Build advancedFields for advanced search
+  const allowedTypes = ["select", "date", "text", "number", "checkbox"];
+  const advancedFields = locationFormFields
+    .filter((f) => allowedTypes.includes(f.type))
+    .map((f) => ({
+      name: f.name,
+      label: f.label,
+      type: f.type,
+      options: f.options,
+      placeholder: f.label,
+    }));
+
   return (
     <DataTable<Location>
       fetchData={fetchData}
@@ -76,6 +96,16 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
       isPagination={true}
       defaultPageSize={10}
       idField="id"
+      advancedFilters={advancedFilters}
+      setAdvancedFilters={setAdvancedFilters}
+      rightHeaderContent={
+        <TableHeaderActions
+          columns={columns}
+          filename="locations.csv"
+          advancedFields={advancedFields}
+          setAdvancedFilters={setAdvancedFilters}
+        />
+      }
       renderExpandedContent={({ handleSave, rowData, handleEdit }) => {
         const mode = rowData?.id ? "edit" : "create";
         return (
@@ -88,9 +118,9 @@ const LocationsTable = ({ areaId }: LocationsTableProps) => {
             onSubmit={async (data: z.infer<typeof locationSchema>) => {
               if (handleSave && mode === "create")
                 //@ts-ignore
-                handleSave({ ...data, areaId });
+                await handleSave({ ...data, areaId });
               else if (handleEdit && mode === "edit")
-                handleEdit({ id: rowData?.id, ...data });
+                await handleEdit({ id: rowData?.id, ...data });
             }}
           />
         );

@@ -18,43 +18,65 @@ export function CommandDialogDemo() {
   const [isFocused, setIsFocused] = useState(false);
   const [query, setQuery] = useState("");
 
-  // Extract commands from router
+  // Extract commands from router - fix the route access
   const commandData = [
     {
       heading: "pages",
-      items:
-        router.routes
-          .find((route) => route.path === "/")
-          ?.children?.filter((route) => route.handle?.showInSidebar)
+      items: (() => {
+        // Find the layout route that contains children
+        const layoutRoute = router.routes.find(
+          (route) => route.children && route.children.length > 0
+        );
+
+        if (!layoutRoute || !layoutRoute.children) return [];
+
+        return layoutRoute.children
+          .filter((route) => route.handle?.showInSidebar)
           .map((route) => ({
-            label: route.handle.title,
-            icon: route.handle.icon,
-            path: route.path,
-          })) || [],
+            label: route.handle?.title || "",
+            icon: route.handle?.icon,
+            path: route.path || "",
+          }));
+      })(),
     },
   ];
 
+  console.log(commandData, "commandData");
+
+  // Filter commands based on query
   const filteredCommands = commandData.map((group) => ({
     ...group,
-    items: group.items.filter(
-      (item) => t(item.label).toLowerCase().includes(query.toLowerCase()) // Search using the translated label
-    ),
+    items: group.items.filter((item) => {
+      if (!query) return true; // Show all items when no query
+      const translatedLabel = t(item.label).toLowerCase();
+      return translatedLabel.includes(query.toLowerCase());
+    }),
   }));
 
   const handleSelect = (path: string) => {
     navigate(path);
+    setQuery(""); // Clear the search query
     setIsFocused(false);
-    //@ts-ignore
-    document.activeElement?.blur();
+    // Better way to blur the active element
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement && activeElement.blur) {
+      activeElement.blur();
+    }
+  };
+
+  const handleBlur = () => {
+    // Delay hiding to allow click events to register
+    setTimeout(() => setIsFocused(false), 150);
   };
 
   return (
-    <Command className="rounded-lg border shadow-sm md:min-w-[450px]">
+    <Command className="rounded-lg border shadow-sm md:min-w-[450px] bg-surface">
       <CommandInput
         className="shadow-none"
         placeholder={t("search") + "..."}
+        value={query}
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+        onBlur={handleBlur}
         onValueChange={setQuery}
       />
       {isFocused && (
@@ -68,11 +90,13 @@ export function CommandDialogDemo() {
                   {group.items.map((item) => (
                     <CommandItem
                       key={item.path}
-                      onSelect={() => handleSelect(item.path || "")}
+                      onSelect={() => handleSelect(item.path)}
+                      className="cursor-pointer"
                     >
-                      {item.icon && <item.icon />}
-                      <span>{t(item.label)}</span>{" "}
-                      {/* Render translated label */}
+                      <div className="flex items-center gap-2">
+                        <span>{item.icon && <item.icon />}</span>
+                        <span>{t(item.label)}</span>
+                      </div>
                     </CommandItem>
                   ))}
                 </CommandGroup>

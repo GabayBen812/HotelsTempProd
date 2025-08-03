@@ -26,7 +26,7 @@ export const DataTablePaginationControls = <TData,>({
   }
 
   return (
-    <div className="flex items-center justify-between space-x-2 py-2 bg-primary-foreground rounded-lg text-white">
+    <div className="flex items-center justify-between space-x-2 py-2 bg-primary-foreground rounded-lg text-surface">
       <Pagination table={table} />
       <div className="flex ltr:flex-row-reverse rtl:flex-row gap-4 px-4 items-center space-x-2">
         <h1 className="text-sm">{t("showing")}</h1>

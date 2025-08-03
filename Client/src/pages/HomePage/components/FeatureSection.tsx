@@ -1,47 +1,49 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Monitor, Smartphone, Bot, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { GetDirection } from "@/lib/i18n";
 
 export default function FeaturePillars() {
+  const { t } = useTranslation();
+  const direction = GetDirection();
+  
   const pillars = [
     {
       icon: Monitor,
-      title: "דאשבורד ניהול",
-      description:
-        "שליטה מלאה על תפעול המלון, ניהול צוותים וניתוח נתונים בזמן אמת",
+      title: t("management_dashboard"),
+      description: t("management_dashboard_desc"),
       features: [
-        "ניהול עובדים",
-        "מעקב אחר פניות",
-        "פתיחת פניות",
-        "אנליטיקות ביצועים",
+        t("employee_management"),
+        t("call_tracking"),
+        t("call_creation"),
+        t("performance_analytics"),
       ],
       gradient: "from-blue-500 to-indigo-600",
       bgGradient: "from-blue-50 to-indigo-50",
     },
     {
       icon: Smartphone,
-      title: "אפליקציית עובדים",
-      description:
-        "חווית מובייל יעילה לניהול משימות וטיפול מהיר בתקלות עבור הצוות",
+      title: t("employee_app_title"),
+      description: t("employee_app_desc"),
       features: [
-        "הקצאת משימות",
-        "פתרון תקלות",
-        "תקשורת צוותית",
-        "עדכונים בזמן אמת",
+        t("task_assignment"),
+        t("issue_resolution"),
+        t("team_communication"),
+        t("real_time_updates"),
       ],
       gradient: "from-purple-500 to-pink-600",
       bgGradient: "from-purple-50 to-pink-50",
     },
     {
       icon: Bot,
-      title: "עוזר אורחים חכם",
-      description:
-        "צ'אטבוט מתקדם המעניק תמיכה לאורחים 24/7 ועוזר בשאלות כלליות ופתיחת פניות בקלות",
+      title: t("smart_guest_assistant"),
+      description: t("smart_guest_assistant_desc"),
       features: [
-        "אגם נתונים של המלון",
-        "מענה מיידי",
-        "תמיכה רב-לשונית",
-        "ניתוב חכם",
+        t("hotel_data_lake"),
+        t("instant_response"),
+        t("multilingual_support"),
+        t("smart_routing"),
       ],
       gradient: "from-cyan-500 to-teal-600",
       bgGradient: "from-cyan-50 to-teal-50",
@@ -49,7 +51,7 @@ export default function FeaturePillars() {
   ];
 
   return (
-    <section id="features" className="py-24 px-6">
+    <section id="features" className="py-24 px-6" dir={direction ? "rtl" : "ltr"}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -59,13 +61,13 @@ export default function FeaturePillars() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            שלוש פלטפורמות עוצמתיות,{" "}
+            {t("three_platforms_part1")}{" "}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              מערכת אחת מאוחדת
+              {t("three_platforms_highlight")}
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            נבנה עבור כל המשתמשים במלון שלך - מההנהלה, דרך הצוות ועד לאורחים
+            {t("built_for_all_users")}
           </p>
         </motion.div>
 
@@ -85,7 +87,7 @@ export default function FeaturePillars() {
                   <div
                     className={`w-16 h-16 bg-gradient-to-r ${pillar.gradient} rounded-2xl flex items-center justify-center mb-6`}
                   >
-                    <pillar.icon className="w-8 h-8 text-white" />
+                    <pillar.icon className="w-8 h-8 text-surface" />
                   </div>
 
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -111,7 +113,7 @@ export default function FeaturePillars() {
                   <button
                     className={`flex items-center gap-2 text-transparent bg-gradient-to-r ${pillar.gradient} bg-clip-text font-semibold hover:gap-3 transition-all duration-300`}
                   >
-                    קרא עוד
+                    {t("read_more")}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </CardContent>

@@ -40,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "bg-white border border-border rounded-md placeholder:text-muted-foreground font-normal rtl:text-right ltr:text-left w-full focus:outline-border outline-none px-3 py-2",
+            "bg-surface border border-border rounded-md placeholder:text-muted-foreground font-normal rtl:text-right ltr:text-left w-full focus:outline-border outline-none px-3 py-2",
             icon && "rtl:pr-10 ltr:pl-10",
             iconEnd && "ltr:pr-10 rtl:pl-10",
             className

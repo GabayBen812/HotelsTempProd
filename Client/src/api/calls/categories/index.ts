@@ -3,10 +3,13 @@ import { MutationResponse } from "@/types/api/auth";
 import { CallCategory } from "@/types/api/calls";
 import { ApiQueryParams, ApiResponse } from "@/types/ui/data-table-types";
 
-const callCategoryApi = createApiService<CallCategory>("/calls/categories", {
-  includeOrgId: true,
-  customRoutes: {},
-});
+export const callCategoryApi = createApiService<CallCategory>(
+  "/calls/categories",
+  {
+    includeOrgId: true,
+    customRoutes: {},
+  }
+);
 
 export const fetchCallCategories = async (): Promise<
   MutationResponse<CallCategory[]>

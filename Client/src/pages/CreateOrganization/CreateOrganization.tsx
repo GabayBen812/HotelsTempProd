@@ -28,7 +28,7 @@ function CreateOrganization() {
       <div className="flex items-center justify-center w-full h-screen min-h-[750px] z-20 bg-transparent">
         {isSuccess && <CreateOrganizationSuccess />}
         {!isSuccess && (
-          <div className="font-normal flex items-center bg-white py-12 px-4 rounded-lg min-w-[28rem] w-1/4 max-w-[36rem] aspect-square shadow-lg flex-col gap-6">
+          <div className="font-normal flex items-center bg-surface py-12 px-4 rounded-lg min-w-[28rem] w-1/4 max-w-[36rem] aspect-square shadow-lg flex-col gap-6">
             <GalleryVerticalEnd className="size-8" />
             <h1 className="font-medium text-2xl">יצירת חברה</h1>
             <form

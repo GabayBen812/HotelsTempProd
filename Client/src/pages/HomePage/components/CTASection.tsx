@@ -1,16 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, Rocket, ShieldCheck } from "lucide-react"; // Removed ArrowLeft
+import { ArrowLeft, CheckCircle, Rocket, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
-// Removed useLanguage import
+import { useTranslation } from "react-i18next";
+import { GetDirection } from "@/lib/i18n";
 
 export default function CTASection() {
-  // Removed language and t from useLanguage()
+  const { t } = useTranslation();
+  const direction = GetDirection();
 
   const features = [
-    { text: "שינויים אישיים לפי מלון", icon: Rocket },
-    { text: "בלי דמי התקנה", icon: CheckCircle },
-    { text: "24/7 תמיכה", icon: ShieldCheck },
-    { text: "ביטול בכל עת", icon: CheckCircle },
+    { text: t("custom_changes_per_hotel"), icon: Rocket },
+    { text: t("no_setup_fees"), icon: CheckCircle },
+    { text: t("24_7_support"), icon: ShieldCheck },
+    { text: t("cancel_anytime"), icon: CheckCircle },
   ];
 
   const cardVariants = {
@@ -38,14 +40,14 @@ export default function CTASection() {
   };
 
   return (
-    <section className="py-24 px-6 bg-slate-50">
+    <section className="py-24 px-6 bg-slate-50" dir={direction ? "rtl" : "ltr"}>
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial="offscreen"
           whileInView="onscreen"
           viewport={{ once: true, amount: 0.3 }}
           variants={cardVariants}
-          className={`bg-white rounded-3xl shadow-2xl p-8 md:p-12 overflow-hidden relative font-sans`}
+          className={`bg-surface rounded-3xl shadow-2xl p-8 md:p-12 overflow-hidden relative font-sans`}
         >
           {/* Decorative background elements */}
           <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full opacity-10 blur-2xl"></div>
@@ -58,15 +60,14 @@ export default function CTASection() {
                 variants={itemVariants}
                 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
               >
-                מוכן לשנות את המלון שלך?
+                {t("ready_to_transform")}
               </motion.h2>
 
               <motion.p
                 variants={itemVariants}
                 className="text-lg text-gray-600 leading-relaxed"
               >
-                צור קשר עם הצוות שלנו כדי להצטרף אלינו ולקבל שינויים אישיים רק
-                למלון שלך.
+                {t("contact_team_description")}
               </motion.p>
 
               <motion.ul variants={itemVariants} className="space-y-3 pt-2">
@@ -87,14 +88,14 @@ export default function CTASection() {
               >
                 <Button
                   size="lg"
-                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-lg px-8 py-4 h-auto font-semibold text-white shadow-lg hover:shadow-blue-500/50 transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-lg px-8 py-4 h-auto font-semibold text-surface shadow-lg hover:shadow-blue-500/50 transition-all duration-300"
                 >
                   <motion.a
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center gap-2"
                   >
-                    מצאו את התוכנית המתאימה
+                    {t("find_plan_button")}
                     <ArrowLeft className="w-5 h-5 ml-2" />
                   </motion.a>
                 </Button>
@@ -107,7 +108,7 @@ export default function CTASection() {
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    צור קשר
+                    {t("contact_us")}
                   </motion.a>
                 </Button>
               </motion.div>

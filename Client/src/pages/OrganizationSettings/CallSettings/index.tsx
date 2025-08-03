@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DataTable from "@/components/ui/completed/data-table";
 import DynamicForm from "../../../components/forms/DynamicForm";
@@ -26,7 +26,7 @@ const CallSettingsTable = () => {
   const columns = getCallSettingsColumns<CallCategory>(t, i18n);
 
   const actions: TableAction<CallCategory>[] = [
-    { label: t("edit") },
+    { label: t("edit"), type: "edit" },
     { type: "delete", label: t("delete") },
   ];
 
@@ -35,6 +35,8 @@ const CallSettingsTable = () => {
     i18n.language as "he" | "en" | "ar",
     departments
   );
+
+  const [advancedFilters, setAdvancedFilters] = useState({});
 
   return (
     <DataTable<CallCategory>
@@ -50,6 +52,8 @@ const CallSettingsTable = () => {
       addData={createCallCategory}
       deleteData={deleteCallCategory}
       updateData={updateCallCategory}
+      advancedFilters={advancedFilters}
+      setAdvancedFilters={setAdvancedFilters}
       renderExpandedContent={({ handleSave, rowData, handleEdit }) => {
         const mode = rowData?.id ? "edit" : "create";
         return (
@@ -74,11 +78,8 @@ const CallSettingsTable = () => {
                 id: rowData?.id,
               };
 
-              if (isCreateMode && handleSave) {
-                handleSave(payload);
-              } else if (!isCreateMode && handleEdit) {
-                handleEdit(payload);
-              }
+              if (isCreateMode && handleSave) await handleSave(payload);
+              else if (!isCreateMode && handleEdit) await handleEdit(payload);
             }}
           />
         );

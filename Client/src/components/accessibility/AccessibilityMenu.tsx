@@ -104,10 +104,10 @@ export default function AccessibilityMenu({ onClose }: AccessibilityMenuProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      className="absolute bottom-20 rtl:left-0 ltr:right-0 mb-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 max-h-[80vh] overflow-y-auto"
+      className="absolute bottom-20 rtl:left-0 ltr:right-0 mb-2 w-80 bg-surface dark:bg-gray-800 rounded-lg shadow-xl p-4 max-h-[80vh] overflow-y-auto"
     >
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-surface">
           {t("accessibility.title")}
         </h3>
         <button

@@ -14,12 +14,9 @@ export function getCallFields(
   allUsers: User[],
   statusOptions: { label: string; value: string }[]
 ): FieldConfig[] {
-  // @ts-ignore
-  const formattedLocations = formatOptions(locations, language, t);
-  // @ts-ignore
-  const formattedCategories = formatOptions(callCategories, language, t);
-  // @ts-ignore
-  const formattedUsers = formatOptions(allUsers, language, t);
+  const formattedLocations = formatOptions(locations, language);
+  const formattedCategories = formatOptions(callCategories, language);
+  const formattedUsers = formatOptions(allUsers, language);
 
   // Convert statusMap to an array of options
 
@@ -40,7 +37,7 @@ export function getCallFields(
     {
       name: "assignedToId",
       label: t("assigned_to"),
-      type: "autocomplete" as const,
+      type: "autocomplete",
       options: formattedUsers,
     },
     {

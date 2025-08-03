@@ -3,101 +3,21 @@ import { Call } from "@/types/api/calls";
 import { i18n, TFunction } from "i18next";
 import { formatDateTime } from "@/lib/dateUtils";
 import { StatusBadge } from "@/components/ui/completed/StatusBadge";
-import { CheckCircle2 } from "lucide-react";
-import { useState } from "react";
-import { AssignWorkerDialog } from "./AssignWorkerDialog";
-
-// Create a separate component for the action cell
-function ActionCell({
-  call,
-  onCloseCall,
-  onAssignWorker,
-  users,
-  t,
-}: {
-  call: Call;
-  onCloseCall?: (callId: string | number) => void;
-  onAssignWorker?: (callId: string | number, workerId: string) => void;
-  users?: Array<{ value: string; label: string }>;
-  t: TFunction;
-}) {
-  const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
-
-  if (call.status === "IN_PROGRESS") {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onCloseCall) onCloseCall(call.id);
-          }}
-          className="group flex items-center gap-1 p-2 rounded-full text-green-600 hover:text-green-800 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
-          style={{ background: "none", border: "none" }}
-        >
-          <CheckCircle2 size={20} className="inline-block" />
-          <span className="text-xs font-medium">{t("close_call")}</span>
-        </button>
-      </div>
-    );
-  }
-
-  if (call.status === "OPENED") {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsAssignDialogOpen(true);
-          }}
-          className="group flex items-center gap-1 p-2 rounded-full text-blue-600 hover:text-green-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
-          style={{ background: "none", border: "none" }}
-        >
-          <CheckCircle2 size={20} className="inline-block" />
-          <span className="text-xs font-medium">{t("assign_to_worker")}</span>
-        </button>
-        {users && onAssignWorker && (
-          <AssignWorkerDialog
-            isOpen={isAssignDialogOpen}
-            onOpenChange={setIsAssignDialogOpen}
-            onAssign={(workerId) => onAssignWorker(call.id, workerId)}
-            users={users}
-          />
-        )}
-      </div>
-    );
-  }
-
-  return null;
-}
 
 export const getCallColumns = (
   t: TFunction,
   i18n: i18n,
-  statusOptions: { label: string; value: string }[],
-  onCloseCall?: (callId: string | number) => void,
-  onAssignWorker?: (callId: string | number, workerId: string) => void,
-  users?: Array<{ value: string; label: string }>
+  statusOptions: { label: string; value: string }[]
 ): ColumnDef<Call>[] => [
   {
     accessorKey: "callCategoryId",
     header: t("call_category"),
     cell: ({ row }) =>
       //@ts-ignore
-      row.original.callCategory?.name?.[i18n.language as "he" | "en" | "ar"] || "-",
+      row.original.callCategory?.name?.[i18n.language as "he" | "en" | "ar"] ||
+      "-",
   },
-  {
-    id: "actions",
-    header: t("actions.index"),
-    cell: ({ row }) => (
-      <ActionCell
-        call={row.original}
-        onCloseCall={onCloseCall}
-        onAssignWorker={onAssignWorker}
-        users={users}
-        t={t}
-      />
-    ),
-  },
+
   {
     accessorKey: "description",
     header: t("description"),
@@ -115,7 +35,8 @@ export const getCallColumns = (
     cell: ({ row }) => (
       <div className="bg-background w-fit px-3 rounded-md">
         {/* @ts-ignore */}
-        {row.original.Department?.name?.[i18n.language as "he" | "en" | "ar"] || "-"}
+        {row.original.Department?.name?.[i18n.language as "he" | "en" | "ar"] ||
+          "-"}
       </div>
     ),
   },
@@ -135,6 +56,7 @@ export const getCallColumns = (
       return <StatusBadge option={option} />;
     },
   },
+
   {
     id: "timeStatus",
     header: t("time_status"),

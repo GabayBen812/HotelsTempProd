@@ -94,9 +94,7 @@ function OrganizationSettings() {
 
   return (
     <div className="mx-auto h-full flex flex-col">
-      <h1 className="text-lg font-semibold text-primary">
-        {t(activeSubTab || activeTab)}
-      </h1>
+      <h1 className="heading text-2xl mb-1">{t(activeSubTab || activeTab)}</h1>
       <div className="pb-6">
         <SettingsBreadcrumbs crumbs={breadcrumbCrumbs} />
       </div>

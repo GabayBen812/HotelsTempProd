@@ -14,9 +14,10 @@ import {
 } from "lucide-react";
 import { createApiService } from "@/api/utils/apiFactory";
 import { Call } from "@/types/api/calls";
-import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
-import i18n from "@/i18n";
+import StatCard, { StatCardProps } from "./components/StatCard";
+import RecentCalls from "./components/RecentCalls";
+import CallsHeatmap from "./components/CallsHeatmap";
 
 const callsApi = createApiService<Call>("/calls", { includeOrgId: true });
 const usersApi = createApiService("/users", { includeOrgId: true });
@@ -28,8 +29,7 @@ export default function Home() {
   const [activeCalls, setActiveCalls] = useState<number>(0);
   const [recentCalls, setRecentCalls] = useState<Call[]>([]);
   const [urgentCalls, setUrgentCalls] = useState<number>(0);
-  // @ts-ignore
-  const [employeesCount, setEmployeesCount] = useState<number>(0);
+  const [_, setEmployeesCount] = useState<number>(0);
   const [employees, setEmployees] = useState<any[]>([]);
   const [avgResponseTime, setAvgResponseTime] = useState<number>(0);
   const [slaComplianceRate, setSlaComplianceRate] = useState<number>(0);
@@ -145,191 +145,72 @@ export default function Home() {
     fetchCalls();
   }, []);
 
-  const getStatusColor = (status?: Call["status"]) => {
-    switch (status) {
-      case "OPENED":
-        return "bg-green-500";
-      case "IN_PROGRESS":
-        return "bg-yellow-400";
-      case "COMPLETED":
-        return "bg-gray-400";
-      case "FAILED":
-        return "bg-red-500";
-      case "ON_HOLD":
-        return "bg-orange-500";
-      default:
-        return "bg-muted-foreground";
-    }
-  };
+  const statCards: StatCardProps[] = [
+    {
+      icon: PhoneCall,
+      title: t("active_calls"),
+      value: activeCalls,
+      subtitle: t("needs_attention"),
+    },
+
+    {
+      icon: Clock,
+      title: t("avg_response_time"),
+      value: formatResponseTime(avgResponseTime),
+      subtitle: t("resolution_time"),
+    },
+    {
+      icon: AlertCircle,
+      title: t("urgent_calls"),
+      value: urgentCalls,
+      subtitle: t("exceeding_sla"),
+      color: urgentCalls > 0 ? "red" : "green",
+    },
+    {
+      icon: Timer,
+      title: t("sla_compliance"),
+      value: `${slaComplianceRate}%`,
+      subtitle: t("within_expected_time"),
+      color:
+        slaComplianceRate >= 90
+          ? "green"
+          : slaComplianceRate >= 75
+          ? "orange"
+          : "red",
+    },
+  ];
 
   return (
     <div className="mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-primary">{t("welcome_back")}</h1>
+        <h1 className="heading">{t("welcome_back")}</h1>
         <div
-          className="h-1 w-20 rounded-full mt-1"
+          className="h-[3px] w-20 rounded-full mt-1"
           style={{ backgroundColor: "var(--accent)" }}
         />
-        <p className="text-muted-foreground">{t("dashboard_summary")}</p>
+        <p className="text-lg text-foreground/70">{t("dashboard_summary")}</p>
       </div>
 
+      {/* All stat cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <Card
-          onClick={() => navigate("/calls")}
-          className="border-[var(--accent)] shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer"
-        >
-          <CardHeader className="pb-2">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {t("active_calls")}
-              </CardTitle>
-              <PhoneCall className="h-5 w-5 text-[var(--accent)]" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{activeCalls}</div>
-            <p className="text-xs text-muted-foreground">
-              {t("needs_attention")}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card
-          onClick={() => navigate("/calls")}
-          className="border-[var(--accent)] shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer"
-        >
-          <CardHeader className="pb-2">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {t("urgent_calls")}
-              </CardTitle>
-              <AlertCircle className="h-5 w-5 text-red-500" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div
-              className={`text-2xl font-bold ${
-                urgentCalls > 0 ? "text-red-500" : "text-green-600"
-              }`}
-            >
-              {urgentCalls}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("exceeding_sla")}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[var(--accent)] shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer">
-          <CardHeader className="pb-2">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {t("avg_response_time")}
-              </CardTitle>
-              <Clock className="h-5 w-5 text-[var(--accent)]" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {formatResponseTime(avgResponseTime)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("resolution_time")}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-[var(--accent)] shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 cursor-pointer">
-          <CardHeader className="pb-2">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {t("sla_compliance")}
-              </CardTitle>
-              <Timer className="h-5 w-5 text-[var(--accent)]" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div
-              className={`text-2xl font-bold ${
-                slaComplianceRate >= 90
-                  ? "text-green-600"
-                  : slaComplianceRate >= 75
-                  ? "text-yellow-500"
-                  : "text-red-500"
-              }`}
-            >
-              {slaComplianceRate}%
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("within_expected_time")}
-            </p>
-          </CardContent>
-        </Card>
+        {statCards.map((card, index) => (
+          <StatCard
+            key={index}
+            icon={card.icon}
+            title={card.title}
+            value={card.value}
+            subtitle={card.subtitle}
+            color={card.color}
+          />
+        ))}
       </div>
 
+      {/* Recent calls section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader className="flex justify-between items-center pb-2">
-            <CardTitle>{t("recent_calls")}</CardTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/calls")}
-              className="text-[var(--accent)]"
-            >
-              {t("view_all")} <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {recentCalls.length > 0 ? (
-              recentCalls.map((call) => (
-                <div
-                  key={call.id}
-                  className="p-3 border rounded-md hover:bg-muted/50 transition"
-                >
-                  <div className="flex justify-between items-center mb-1">
-                    <h4 className="font-semibold text-sm">
-                      {
-                        call.callCategory.name[
-                          i18n.language as keyof typeof call.callCategory.name
-                        ]
-                      }
-                    </h4>
-                    <Badge className={getStatusColor(call.status)}>
-                      {call.status
-                        ? t(call.status.toLowerCase())
-                        : t("unknown_status")}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-                    {call.description}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-muted-foreground">
-                      {/* @ts-ignore */}
-                      {new Date(call.createdAt).toLocaleDateString("he-IL")}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigate(`/calls/${call.id}`)}
-                    >
-                      {t("details")}
-                    </Button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-muted-foreground gap-3">
-                <Ghost className="w-10 h-10 text-secondary" />
-                <p className="font-medium">{t("no_results_title")}</p>
-                <p className="text-sm">{t("no_results_calls")}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
+        <RecentCalls calls={recentCalls} />
+        <CallsHeatmap />
+        {/* Recent employees section - need to change */}
+        {/* <Card>
           <CardHeader className="flex justify-between items-center pb-2">
             <CardTitle>{t("recent_employees")}</CardTitle>
             <Button
@@ -374,13 +255,13 @@ export default function Home() {
               ))
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-muted-foreground gap-3">
-                <Ghost className="w-10 h-10 text-secondary" />
+                <Ghost className="w-10 h-10 text-muted-foreground" />
                 <p className="font-medium">{t("no_results_title")}</p>
                 <p className="text-sm">{t("no_results_employees")}</p>
               </div>
             )}
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );

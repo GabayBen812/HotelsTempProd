@@ -23,7 +23,7 @@ function OrganizationSettingsForm({ organization }: Props) {
       <div className="flex rtl:flex-row-reverse ltr:flex-row items-center gap-4">
         <Avatar className="rounded-md size-20">
           <AvatarImage src={organization?.logo} alt={organization?.name} />
-          <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+          <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
             <Hotel className="size-8" />
           </AvatarFallback>
         </Avatar>

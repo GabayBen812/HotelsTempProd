@@ -1,17 +1,12 @@
-import { useOrganization } from "@/hooks/organization/useOrganization";
-import { resolveTheme } from "@/lib/themeUtils";
-
 function HomeIcon({ isActive = false }) {
-  const { organization } = useOrganization();
-  const theme = organization?.customStyles?.accentColor;
-  const fill = isActive ? "var(--accent)" : resolveTheme(theme).inactiveAccent;
+  const fill = "oklch(var(--accent))";
 
   return (
     <svg
       width="20"
       height="20"
       viewBox="0 0 19 18"
-      fill={isActive ? "var(--accent)" : "none"}
+      fill={isActive ? fill : "none"}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

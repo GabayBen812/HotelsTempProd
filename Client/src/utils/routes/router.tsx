@@ -24,12 +24,49 @@ import NotFoundPage from "@/pages/errors/NotFoundPage";
 import Homepage from "@/pages/HomePage";
 import AccessibilityLauncher from "@/components/accessibility/AccessibilityLauncher";
 import AccessibilityStatement from "@/pages/AccessibilityStatement/AccessibilityStatement";
+import PublicLayout from "@/components/layouts/Public/Layout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage />,
-    handle: { showInSidebar: false },
+    element: <PublicLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Homepage />,
+        handle: { documentTitle: "landing" },
+      },
+      {
+        path: "/login",
+        element: <Login />,
+        handle: { documentTitle: "login" },
+      },
+      {
+        path: "/chat",
+        element: <ChatGuestPage />,
+        handle: { documentTitle: "chat" },
+      },
+      {
+        path: "/create-organization",
+        element: <CreateOrganization />,
+        handle: { documentTitle: "create_organization" },
+      },
+      {
+        path: "/unauthorized",
+        element: <UnauthorizedPage />,
+        handle: { documentTitle: "unauthorized" },
+      },
+      {
+        path: "/accessibility-statement",
+        element: <AccessibilityStatement />,
+        handle: { documentTitle: "accessibility_statement" },
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
+        handle: { documentTitle: "not_found" },
+      },
+    ],
   },
   {
     path: "/",
@@ -47,6 +84,7 @@ export const router = createBrowserRouter([
         element: <Home />,
         handle: {
           title: "home",
+          documentTitle: "home",
           icon: HomeIcon,
           showInSidebar: true,
         },
@@ -56,6 +94,7 @@ export const router = createBrowserRouter([
         element: <Reports />,
         handle: {
           title: "dashboard",
+          documentTitle: "dashboard",
           icon: ReportsIcon,
           showInSidebar: true,
         },
@@ -65,31 +104,47 @@ export const router = createBrowserRouter([
         handle: {
           title: "calls",
           icon: CallsIcon,
+          documentTitle: "calls",
           showInSidebar: true,
         },
         element: <Calls />,
       },
       {
         path: "/calls/add",
+        handle: {
+          documentTitle: "add_call",
+        },
         element: <AddCall />,
       },
       {
         path: "/calls/:id",
+        handle: {
+          documentTitle: "call_details",
+        },
         element: <CallDetails />,
       },
       {
         path: "/employees",
         element: <Employees />,
-        handle: { title: "employees", showInSidebar: true, icon: PeopleIcon },
+        handle: {
+          documentTitle: "employees",
+          title: "employees",
+          showInSidebar: true,
+          icon: PeopleIcon,
+        },
       },
       {
         path: "/settings",
+        handle: {
+          documentTitle: "settings",
+        },
         element: <Settings />,
       },
       {
         path: "/organization-settings",
         element: <OrganizationSettings />,
         handle: {
+          documentTitle: "organization_settings",
           title: "organization_settings",
           showInSidebar: true,
           icon: SettingsIcon,
@@ -97,13 +152,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/create-organization", element: <CreateOrganization /> },
-  { path: "/login", element: <Login /> },
-  {
-    path: "/chat",
-    element: <ChatGuestPage />,
-  },
-  { path: "/accessibility-statement", element: <AccessibilityStatement /> },
-  { path: "/unauthorized", element: <UnauthorizedPage /> },
-  { path: "*", element: <NotFoundPage /> },
 ]);

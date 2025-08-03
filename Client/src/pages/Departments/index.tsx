@@ -16,7 +16,7 @@ export const Departments = () => {
           <h1 className="text-2xl text-primary font-semibold">
             {t("departments")}
           </h1>
-          <div className="size-6 font-semibold text-sm flex items-center justify-center bg-accent text-light rounded-md">
+          <div className="size-6 font-semibold text-sm flex items-center justify-center bg-accent text-surface rounded-md">
             {departments?.length}
           </div>
         </div>

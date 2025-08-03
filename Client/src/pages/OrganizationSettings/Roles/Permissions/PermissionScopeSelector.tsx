@@ -30,14 +30,17 @@ function PermissionScopeSelector({
   resource,
 }: Props) {
   return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium capitalize text-muted-foreground">
-        {t(`actions.${action}`) ?? action}
-      </Label>
+    <div className="space-y-4">
+      <div className="w-full bg-border/40 border-b py-1 px-4">
+        <Label className="text-sm font-medium capitalize">
+          {t(`actions.${action}`) ?? action}
+        </Label>
+      </div>
+
       <RadioGroup
         value={current.scope}
         onValueChange={(val: Scope) => handleScopeChange(resource, action, val)}
-        className="flex flex-col space-y-1 rtl:items-end ltr:items-start"
+        className="flex flex-col space-y-3 rtl:items-end ltr:items-start px-4"
       >
         {allowedScopes.map((value: string) => {
           const label =
@@ -55,7 +58,7 @@ function PermissionScopeSelector({
               />
               <Label
                 htmlFor={`${resource}-${action}-${value}`}
-                className="capitalize"
+                className="capitalize font-normal"
               >
                 {t(`scopes.${label.toLowerCase()}`) ?? label}
               </Label>

@@ -65,7 +65,7 @@ export function DepartmentsDropdown({
                     alt={department?.name.he}
                   />
 
-                  <AvatarFallback className="rounded-md text-white bg-[var(--datatable-header)]">
+                  <AvatarFallback className="rounded-md text-surface bg-foreground">
                     <Building className="size-4" />
                   </AvatarFallback>
                 </Avatar>
@@ -96,7 +96,7 @@ export function DepartmentsDropdown({
                       src={getImage(department.logo)}
                       alt={department.name.he}
                     />
-                    <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+                    <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                       <Building className="size-4" />
                     </AvatarFallback>
                   </Avatar>

@@ -12,23 +12,22 @@ export const buildQueryParams = (
   if (!params) return {};
   const organizationId = String(getSelectedOrganization());
 
-  // Start with required parameters
   const queryParams: Record<string, string> = {
     organizationId,
     page: params?.page?.toString() || "",
     pageSize: params?.pageSize?.toString() || "",
   };
 
-  // Add sorting parameters if provided
-  if (params?.sortField) {
-    queryParams.sortField = params.sortField;
-    queryParams.sortDirection = params.sortDirection || "asc";
-  }
-
-  // Add search parameter if provided
-  if (params?.search) {
-    queryParams.search = params.search;
-  }
+  Object.entries(params).forEach(([key, value]) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      !["page", "pageSize"].includes(key)
+    ) {
+      queryParams[key] = String(value);
+    }
+  });
 
   return queryParams;
 };

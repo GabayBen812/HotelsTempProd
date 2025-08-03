@@ -37,7 +37,7 @@ function OrganizationSettingsOrgSelect({
                 src={selectedOrganization?.logo}
                 alt={selectedOrganization?.name}
               />
-              <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+              <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                 <Hotel className="size-4" />
               </AvatarFallback>
             </Avatar>
@@ -70,7 +70,7 @@ function OrganizationSettingsOrgSelect({
                   src={organizationChild?.logo}
                   alt={organizationChild?.name}
                 />
-                <AvatarFallback className="rounded-md text-white bg-sidebar-primary">
+                <AvatarFallback className="rounded-md text-surface bg-sidebar-primary">
                   <Hotel className="size-4" />
                 </AvatarFallback>
               </Avatar>

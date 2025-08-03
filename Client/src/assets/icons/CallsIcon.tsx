@@ -1,17 +1,12 @@
-import { useOrganization } from "@/hooks/organization/useOrganization";
-import { resolveTheme } from "@/lib/themeUtils";
-
 function CallsIcon({ isActive = false }) {
-  const { organization } = useOrganization();
-  const theme = organization?.customStyles?.accentColor;
-  const fill = isActive ? "var(--accent)" : resolveTheme(theme).inactiveAccent;
+  const fill = "oklch(var(--accent))";
 
   return (
     <svg
       width="20"
       height="17"
       viewBox="0 0 20 17"
-      fill={isActive ? "var(--accent)" : "none"}
+      fill={isActive ? fill : "none"}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -23,7 +18,7 @@ function CallsIcon({ isActive = false }) {
       />
       <path
         d="M0.714233 4.21436L9.18679 10.08C9.676 10.4187 10.3239 10.4187 10.8131 10.08L19.2857 4.21436"
-        stroke={isActive ? "white" : fill}
+        stroke={isActive ? "oklch(var(--surface))" : fill}
         strokeWidth="1.2"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -65,6 +65,23 @@ export function useOrganizationCore() {
     onError: () => toast.error(t("error_updating_organization")),
   });
 
+  const setOrganizationLocally = (partial: Partial<Organization>) => {
+    queryClient.setQueryData<MutationResponse<Organization>>(
+      ["organization"],
+      (prev: any) => {
+        if (!prev) return prev;
+
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            ...partial, // safely override only specific fields
+          },
+        };
+      }
+    );
+  };
+
   // Select organization
   const selectOrganization = (id: number) => {
     localStorage.setItem("selectedOrganization", id.toString());
@@ -92,6 +109,7 @@ export function useOrganizationCore() {
     organization,
     isOrganizationFetching: fetchOrganizationQuery.isFetching,
     refetchOrganization: fetchOrganizationQuery.refetch,
+    setOrganizationLocally,
 
     // Mutations
     createNewOrganization: createNewOrganizationMutation.mutateAsync,

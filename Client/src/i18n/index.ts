@@ -8,13 +8,17 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng: "he", // default language
     fallbackLng: "he",
     debug: true,
     load: "all",
     backend: {
       loadPath:
         "https://qipcgolampmdkhplcnbk.supabase.co/storage/v1/object/public/Images/Translations/{{lng}}.json",
+    },
+    detection: {
+      // 👇 Add this block
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
     },
     interpolation: {
       escapeValue: false,

@@ -2,10 +2,15 @@ import { useEffect, useRef, useCallback, useContext } from "react";
 import { io, Socket } from "socket.io-client";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { useAuth } from "./useAuth";
+import { CallMessageAttachment } from "@/types/api/calls";
 interface UseSocketReturn {
   joinCallRoom: (callId: number) => void;
   leaveCallRoom: (callId: number) => void;
-  sendMessage: (callId: number, content: string) => void;
+  sendMessage: (
+    callId: number,
+    content: string,
+    attachments?: CallMessageAttachment[]
+  ) => void;
   onMessage: (callback: (message: any) => void) => void;
 }
 
@@ -41,13 +46,20 @@ export const useSocket = (): UseSocketReturn => {
   }, []);
 
   const sendMessage = useCallback(
-    (callId: number, content: string) => {
+    (
+      callId: number,
+      content: string,
+      attachments?: CallMessageAttachment[]
+    ) => {
+      console.log(attachments, "attachments");
+
       if (socketRef.current && user) {
         socketRef.current.emit("call:sendMessage", {
           callId,
           userId: user.id,
           organizationId: organization?.id,
           content,
+          attachments,
         });
       }
     },
@@ -67,8 +79,6 @@ export const useSocket = (): UseSocketReturn => {
     onMessage,
   };
 };
-
-
 
 type EventCallback = (...args: any[]) => void;
 

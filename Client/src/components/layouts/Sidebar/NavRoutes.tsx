@@ -19,8 +19,6 @@ import { router } from "@/utils/routes/router";
 import { Link, RouteObject, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { isRouteActive } from "@/utils/routes/routesUtils";
-import { useOrganization } from "@/hooks/organization/useOrganization";
-import { resolveTheme } from "@/lib/themeUtils";
 import { matchPath } from "react-router-dom";
 
 export function NavRoutes() {
@@ -47,9 +45,6 @@ function SideBarMenuRoute({ route }: { route: RouteObject }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const { state, isMobile } = useSidebar();
-  const { organization } = useOrganization();
-  const theme = organization?.customStyles?.accentColor;
-  const fill = resolveTheme(theme).primary;
 
   return (
     <SidebarMenu className="gap-5">
@@ -71,7 +66,7 @@ function SideBarMenuRoute({ route }: { route: RouteObject }) {
             asChild
             className="group/collapsible"
           >
-            <SidebarMenuItem className="">
+            <SidebarMenuItem>
               {childRoute.children && childRoute.children?.length > 0 && (
                 <CollapsibleChildren childRoute={childRoute} />
               )}
@@ -86,19 +81,18 @@ function SideBarMenuRoute({ route }: { route: RouteObject }) {
                     className={`ease duration-150 text-sidebar-primary-foreground rounded-none px-2 relative ${
                       isActive && "text-sidebar-accent"
                     }`}
-                    style={{ color: isActive ? "var(--accent)" : fill }}
                     tooltip={t(childRoute.handle.title)}
                   >
                     {isActive && (
                       <div className="absolute h-full rtl:left-0 ltr:right-0 w-1 rtl:rounded-tr-md ltr:rounded-tl-md ltr:rounded-bl-md rtl:rounded-br-md bg-sidebar-accent" />
                     )}
                     <span
-                      className={`mx-4 ${
+                      className={`mx-4 bg-black${
                         isActive
                           ? "!text-sidebar-accent"
                           : "!text-sidebar-primary-foreground"
                       }`}
-                      style={{ color: isActive ? "var(--accent)" : fill }}
+                      style={{ color: isActive ? "var(--accent)" : "black" }}
                     >
                       {childRoute.handle.icon && (
                         <childRoute.handle.icon isActive={isActive} />
@@ -108,11 +102,7 @@ function SideBarMenuRoute({ route }: { route: RouteObject }) {
                     <span
                       className={`transition-colors font-semibold ${
                         state === "collapsed" && !isMobile ? "hidden" : ""
-                      } ${
-                        isActive
-                          ? "text-sidebar-accent"
-                          : "text-sidebar-primary-foreground"
-                      }`}
+                      } ${isActive ? "text-accent" : "text-foreground"}`}
                     >
                       {t(childRoute.handle.title)}
                     </span>
@@ -172,9 +162,6 @@ function CollapsibleChildren({ childRoute }: { childRoute: RouteObject }) {
 function NewCallButton() {
   const { t } = useTranslation();
   const { state, isMobile } = useSidebar();
-  const { organization } = useOrganization();
-  const theme = organization?.customStyles?.accentColor;
-  const fill = resolveTheme(theme).primary;
 
   return (
     <SidebarMenu>
@@ -183,17 +170,12 @@ function NewCallButton() {
           <SidebarMenuButton className="text-sidebar-primary-foreground active:bg-none group">
             <span className="flex items-center gap-2 font-bold whitespace-nowrap">
               <div className="rounded-full bg-sidebar-accent p-2 mx-1">
-                <Plus className="text-white rounded-full w-5 h-5" />
+                <Plus className="text-surface rounded-full w-5 h-5" />
               </div>
               <span
                 className={`${
                   state === "collapsed" && !isMobile ? "hidden" : ""
-                } transition-colors`}
-                style={{ color: fill }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--accent)")
-                }
-                onMouseLeave={(e) => (e.currentTarget.style.color = fill || "")}
+                } transition-colors text-accent`}
               >
                 {t("add_x", { x: t("call") })}
               </span>
