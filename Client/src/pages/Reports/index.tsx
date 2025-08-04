@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,12 +12,15 @@ import {
   Settings,
   Brain,
   Download,
+  TrendingUp,
   Users,
   Clock,
   Target,
   Eye,
+  AlertTriangle,
   CheckCircle,
   Zap,
+  Star,
   RefreshCw,
 } from "lucide-react";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
@@ -41,6 +44,7 @@ export default function Reports() {
     dashboardStats,
     urgentIssues,
     departmentPerformance,
+    peakHours,
     loading,
     refetch,
   } = useReportsData(organization?.id);
@@ -55,7 +59,8 @@ export default function Reports() {
       return;
     }
 
-
+    const currentDate = new Date().toLocaleDateString();
+    const organizationName = organization?.name || "Organization";
 
     try {
       if (format === "csv") {
@@ -628,7 +633,7 @@ export default function Reports() {
                             : "text-yellow-600"
                         }`}
                       >
-                        {issue.location} • {issue.timeAgo}
+                        {issue.location}
                       </p>
                     </div>
                     <span
@@ -738,7 +743,7 @@ export default function Reports() {
                       </div>
                     </div>
                     <span
-                      className={`text-2xl font-bold ${
+                      className={`text-xl font-bold ${
                         dept.color === "green"
                           ? "text-green-600"
                           : dept.color === "blue"

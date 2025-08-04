@@ -1,12 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  Clock,
+  User,
+  MapPin,
   ArrowRight,
   Ghost,
+  AlertTriangle,
   Phone,
 } from "lucide-react";
 import { format } from "date-fns";
-import { Call } from "@/types/api/calls";
+import { Call, CallStatus } from "@/types/api/calls";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +19,20 @@ export default function RecentCalls({ calls }: { calls: Call[] }) {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
 
-
+  const getStatusColor = (status: CallStatus) => {
+    switch (status) {
+      case "OPENED":
+        return "bg-red-100 text-red-700";
+      case "IN_PROGRESS":
+        return "bg-blue-100 text-blue-700";
+      case "COMPLETED":
+        return "bg-green-100 text-green-700";
+      case "ON_HOLD":
+        return "bg-slate-100 text-slate-700";
+      default:
+        return "bg-slate-100 text-slate-700";
+    }
+  };
 
   return (
     <Card className="bg-surface/90 backdrop-blur-sm shadow-lg">

@@ -1,21 +1,23 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Building2, Users, Bot, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { GetDirection } from "@/lib/i18n";
-
+import Logo from "@/assets/logo.svg";
 export default function HeroSection() {
   const { t } = useTranslation();
   const direction = GetDirection();
-  
+
   const statItemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   return (
-    <section className="pt-32 pb-20 px-6 overflow-hidden" dir={direction ? "rtl" : "ltr"}>
+    <section
+      className="pt-32 pb-20 px-6 overflow-hidden"
+      dir={direction ? "rtl" : "ltr"}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-28 items-center">
           {/* Left Content */}
@@ -25,13 +27,6 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-8"
           >
-            <Badge
-              variant="outline"
-              className="bg-blue-50 text-blue-700 border-blue-200 px-4 py-2"
-            >
-              {t("hero_badge")} 🚀
-            </Badge>
-
             <div className="space-y-6">
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 {t("hero_title_part1")}{" "}
@@ -64,7 +59,9 @@ export default function HeroSection() {
             >
               <motion.div className="text-center" variants={statItemVariants}>
                 <div className="text-2xl font-bold text-gray-900">100%</div>
-                <div className="text-sm text-gray-600">{t("suitable_all_hotels")}</div>
+                <div className="text-sm text-gray-600">
+                  {t("suitable_all_hotels")}
+                </div>
               </motion.div>
               <motion.div className="text-center" variants={statItemVariants}>
                 <div className="text-2xl font-bold text-gray-900">24/7</div>
@@ -92,10 +89,16 @@ export default function HeroSection() {
                 whileHover={{ y: -10, scale: 1.02, rotate: 1 }}
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
-                    <Building2 className="w-5 h-5 text-surface" />
+                  <div className="w-8 h-8 shadow-sm rounded-lg flex items-center justify-center">
+                    {/* <Building2 className="w-5 h-5 text-surface" /> */}
+                    <img
+                      src={Logo}
+                      className="border border-border/20 shadow-md shadow-primary/10 rounded-lg"
+                    />
                   </div>
-                  <span className="font-semibold text-gray-900">{t("admin_screen")}</span>
+                  <span className="font-semibold text-gray-900">
+                    {t("admin_screen")}
+                  </span>
                 </div>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
@@ -115,7 +118,7 @@ export default function HeroSection() {
                       {t("avg_handling_time")}
                     </span>
                     <span className="text-lg font-bold text-purple-600">
-                    {t("minutes_example")}
+                      {t("minutes_example")}
                     </span>
                   </div>
                 </div>
@@ -143,7 +146,9 @@ export default function HeroSection() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Users className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium">{t("employee_app")}</span>
+                  <span className="text-sm font-medium">
+                    {t("employee_app")}
+                  </span>
                 </div>
                 <div className="space-y-2">
                   <div className="bg-yellow-50 rounded p-2">
@@ -187,7 +192,9 @@ export default function HeroSection() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Bot className="w-4 h-4 text-cyan-600" />
-                  <span className="text-sm font-medium">{t("ai_customer_assistant")}</span>
+                  <span className="text-sm font-medium">
+                    {t("ai_customer_assistant")}
+                  </span>
                 </div>
                 <div className="space-y-2">
                   <div className="bg-gray-100 rounded-lg p-2 text-xs">

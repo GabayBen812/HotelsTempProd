@@ -8,22 +8,10 @@ import TypingBubble from "@/components/TypingBubble";
 import { useGuest } from "@/hooks/useGuest";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GuestChatSkeleton } from "./GuestChatSkeleton";
-import { Organization } from "@/types/api/organization";
 
 interface ChatMessage {
   text: string;
   sender: "user" | "bot";
-}
-
-interface Recommendation {
-  header: string;
-  text: string;
-}
-
-interface WelcomeScreenProps {
-  organization: Organization;
-  recommendations: Recommendation[];
-  onRecommendationClick: (text: string) => void;
 }
 
 // Loading Skeleton Component with smooth animations
@@ -33,7 +21,7 @@ const WelcomeScreen = ({
   organization,
   recommendations,
   onRecommendationClick,
-}: WelcomeScreenProps) => (
+}) => (
   <motion.div
     className="h-full w-full mt-[10%] flex flex-col gap-6 px-6"
     initial={{ opacity: 0, y: 20 }}
@@ -45,7 +33,7 @@ const WelcomeScreen = ({
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 0.1, duration: 0.4, ease: "easeOut" }}
     >
-      <Avatar className="rounded-2xl size-32 flex items-center justify-center mx-auto">
+      <Avatar className="rounded-full size-32 flex items-center justify-center mx-auto">
         <AvatarImage
           className="size-36"
           src={organization?.logo}
@@ -73,7 +61,7 @@ const WelcomeScreen = ({
       transition={{ delay: 0.3, duration: 0.4 }}
     >
       <p className="text-muted-foreground font-medium text-sm">הצעות</p>
-      {recommendations.map((rec: Recommendation, i: number) => (
+      {recommendations.map((rec, i) => (
         <motion.div
           key={i}
           initial={{ opacity: 0, x: -20 }}
@@ -95,7 +83,7 @@ export default function GuestChatWindow() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string>(() => uuidv4());
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef(null);
 
   const recommendations = [
     {

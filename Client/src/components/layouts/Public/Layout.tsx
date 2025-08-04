@@ -4,17 +4,13 @@ import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRoutes } from "@/hooks/useRoutes";
 
-interface RouteHandle {
-  documentTitle: string;
-}
-
 const PublicLayout = () => {
   const { currentRoute } = useRoutes();
   const { t } = useTranslation();
 
   // Get the last matched route with a title
   const title = currentRoute
-    ? `${t("website_titles." + (currentRoute.handle as RouteHandle)?.documentTitle)}`
+    ? `${t("website_titles." + currentRoute.handle.documentTitle)}`
     : "Bloom";
 
   return (

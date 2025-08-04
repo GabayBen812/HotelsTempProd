@@ -116,7 +116,9 @@ export const RowComponent = React.memo(function RowComponent<T>({
                           if (action.onClick) action.onClick(row);
                         }}
                       >
-                        {action.icon}
+                        {action.icon && (
+                          <action.icon className="mr-2 h-4 w-4" />
+                        )}
                         {t(action.label?.toLowerCase() || "")}
                       </DropdownMenuItem>
                     ))}

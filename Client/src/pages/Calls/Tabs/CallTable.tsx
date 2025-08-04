@@ -76,9 +76,8 @@ export default function CallTable() {
     { label: "Edit", type: "edit" },
     { type: "delete", label: "Delete" },
     {
-      label: "Actions",
       placement: "external",
-      component: (row: any) => (
+      component: (row) => (
         <ActionCell
           call={row.original}
           onCloseCall={handleCloseCall}

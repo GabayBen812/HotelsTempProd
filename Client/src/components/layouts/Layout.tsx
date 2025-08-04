@@ -4,14 +4,10 @@ import { GetDirection } from "@/lib/i18n";
 import { Toaster } from "@/components/ui/sonner";
 import Topbar from "./Topbar/Topbar";
 import { Helmet } from "react-helmet";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { OrganizationsContext } from "@/contexts/OrganizationsContext";
 import { useRoutes } from "@/hooks/useRoutes";
 import { useTranslation } from "react-i18next";
-
-interface RouteHandle {
-  documentTitle: string;
-}
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,7 +18,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { currentRoute } = useRoutes();
   const { t } = useTranslation();
   const title = `${organization?.name} - ${t(
-    (currentRoute?.handle as RouteHandle)?.documentTitle
+    currentRoute?.handle.documentTitle
   )}`;
   // Dynamically replace the favicon
   // useEffect(() => {

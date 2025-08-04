@@ -26,7 +26,7 @@ export default function CallProgress({
   );
 
   // Calculate event positions
-  const eventPositions = events.map((event: any) => {
+  const eventPositions = events.map((event) => {
     const eventTime = new Date(event.timestamp).getTime();
     const position = Math.max(
       0,
@@ -35,12 +35,19 @@ export default function CallProgress({
     return { ...event, position };
   });
 
-  const formatTime = (timestamp: string | number | Date) => {
+  const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
   };
 
-
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours > 0) {
+      return `${hours}h ${mins}m`;
+    }
+    return `${mins}m`;
+  };
 
   return (
     <div className="relative">
@@ -82,7 +89,7 @@ export default function CallProgress({
 
         {/* Event Breakpoints */}
         <TooltipProvider delayDuration={100}>
-          {eventPositions.map((event: any, idx: number) => (
+          {eventPositions.map((event, idx) => (
             <Tooltip key={idx}>
               <TooltipTrigger asChild>
                 <div

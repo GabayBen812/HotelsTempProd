@@ -7,7 +7,7 @@ import { GetDirection } from "@/lib/i18n";
 export default function FeaturePillars() {
   const { t } = useTranslation();
   const direction = GetDirection();
-  
+
   const pillars = [
     {
       icon: Monitor,
@@ -51,7 +51,11 @@ export default function FeaturePillars() {
   ];
 
   return (
-    <section id="features" className="py-24 px-6" dir={direction ? "rtl" : "ltr"}>
+    <section
+      id="features"
+      className="py-24 px-6"
+      dir={direction ? "rtl" : "ltr"}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -110,12 +114,12 @@ export default function FeaturePillars() {
                     ))}
                   </ul>
 
-                  <button
+                  {/* <button
                     className={`flex items-center gap-2 text-transparent bg-gradient-to-r ${pillar.gradient} bg-clip-text font-semibold hover:gap-3 transition-all duration-300`}
                   >
                     {t("read_more")}
                     <ArrowRight className="w-4 h-4" />
-                  </button>
+                  </button> */}
                 </CardContent>
               </Card>
             </motion.div>

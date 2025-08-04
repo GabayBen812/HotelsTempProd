@@ -7,83 +7,87 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import GlobeIcon from "@/assets/icons/GlobeIcon";
 import { languages } from "@/i18n/languages";
-import { LanguagesIcon } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
+import { useRTL } from "@/hooks/useRtl";
 
-function LanguagePicker({
-  selectedLanguages,
-  setSelectedLanguages,
-}: {
-  selectedLanguages?: string[];
-  setSelectedLanguages?: React.Dispatch<React.SetStateAction<string[]>>;
-}) {
+function LanguagePicker() {
+  const { textAlign, flexDirection } = useRTL();
   const { i18n, t } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
+  const currentLanguage = languages.find((l) => l.code === i18n.language);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
-          size={selectedLanguages ? "icon" : "lg"}
-          variant="ghost"
-          className="w-fit flex rtl:flex-row-reverse ltr:flex-row"
+          size="default"
+          variant="outline"
+          className="w-fit flex items-center gap-2 rtl:flex-row-reverse ltr:flex-row hover:bg-muted transition-colors"
         >
-          {selectedLanguages ? (
-            <LanguagesIcon />
-          ) : (
-            <>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
-                  {languages.find((l) => l.code === i18n.language)?.name ||
-                    t("Select language")}
+          <div className="flex items-center gap-2">
+            {currentLanguage ? (
+              <>
+                <span className="text-lg leading-none">
+                  {currentLanguage.flag}
                 </span>
-              </div>
-              <GlobeIcon />
-            </>
-          )}
+                <span className="font-medium text-sm">
+                  {currentLanguage.name}
+                </span>
+              </>
+            ) : (
+              <>
+                <GlobeIcon />
+                <span className="font-medium text-sm">
+                  {t("Select language")}
+                </span>
+              </>
+            )}
+          </div>
+          <ChevronDown size={14} className="opacity-50" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-[--radix-dropdown-menu-trigger-width] min-w-40 rounded-lg"
-        align={"center"}
-        sideOffset={4}
+        className="w-56 rounded-lg shadow-lg border"
+        align="start"
+        sideOffset={8}
       >
-        <DropdownMenuLabel className="p-0 font-normal">
-          <div className="flex items-center gap-2 px-1 py-1.5 text-sm">
-            <div className="grid flex-1 rtl:text-right ltr:text-left text-sm leading-tight">
-              <span className="truncate font-semibold">{t("languages")}</span>
-            </div>
-          </div>
+        <DropdownMenuLabel className="px-3 py-2 font-semibold text-sm text-muted-foreground">
+          {t("languages")}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {languages.map(
-            (language) =>
-              (!selectedLanguages ||
-                !selectedLanguages.includes(language.code)) && (
-                <DropdownMenuItem
-                  key={language.name}
-                  onClick={() =>
-                    setSelectedLanguages && selectedLanguages
-                      ? setSelectedLanguages([
-                          ...selectedLanguages,
-                          language.code,
-                        ])
-                      : changeLanguage(language.code)
-                  }
-                >
-                  <div className="flex items-center gap-2  rtl:flex-row ltr:flex-row-reverse">
-                    <span>{language.name}</span>
-                    <span className="w-5">{language.flag}</span>
+        <DropdownMenuGroup className="max-h-64 overflow-y-auto">
+          {languages.map((language) => {
+            const isSelected = language.code === i18n.language;
+
+            return (
+              <DropdownMenuItem
+                key={language.code}
+                onClick={() => changeLanguage(language.code)}
+                className="flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-muted focus:bg-muted rounded-sm mx-1"
+              >
+                <div className={`flex items-center gap-3 ${flexDirection}`}>
+                  <span className="text-lg leading-none w-6 text-center">
+                    {language.flag}
+                  </span>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-sm">{language.name}</span>
+                    <span
+                      className={`text-xs text-muted-foreground uppercase ${textAlign}`}
+                    >
+                      {language.code}
+                    </span>
                   </div>
-                </DropdownMenuItem>
-              )
-          )}
+                </div>
+                {isSelected && <Check size={16} className="text-primary" />}
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
